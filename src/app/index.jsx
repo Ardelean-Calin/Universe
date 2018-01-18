@@ -16,6 +16,8 @@ import { Navbar } from "./components/Navbar";
 import { ThankYou } from "./components/ThankYou";
 import { LandingPage } from "./components/LandingPage";
 import { courses } from "./database";
+import { LoginPage } from "./components/LoginPage";
+import { SignupPage } from "./components/SignupPage";
 
 class App extends React.Component {
   render() {
@@ -48,7 +50,7 @@ class App extends React.Component {
 
 render(
   <HashRouter>
-    <App />
+    <LoginPage />
   </HashRouter>,
   document.getElementById("app")
 );
