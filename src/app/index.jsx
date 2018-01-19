@@ -19,12 +19,24 @@ import { courses } from "./database";
 import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
 
+let config = {
+  apiKey: "AIzaSyDN6i-0wR7M-B6KYmY3S8dJqy8d65Tp9qk",
+  authDomain: "university-f3ce2.firebaseapp.com",
+  databaseURL: "https://university-f3ce2.firebaseio.com",
+  projectId: "university-f3ce2",
+  storageBucket: "university-f3ce2.appspot.com",
+  messagingSenderId: "289185582138"
+};
+firebase.initializeApp(config);
+
 class App extends React.Component {
   render() {
     return (
-      <div style={{ height: "100%" }}>
+      <div style={{ height: "100%", background: "#ecf0f1" }}>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={LoginPage} />
+          <Route exact path="/signup" component={SignupPage} />
+          <Route exact path="/login" component={LoginPage} />
           <Route
             exact
             path="/courses"
@@ -45,12 +57,13 @@ class App extends React.Component {
   componentDidMount() {
     // $('.modal').modal();
     // $('#modalThanks').modal('open');
+    firebase.auth().signOut();
   }
 }
 
 render(
   <HashRouter>
-    <LoginPage />
+    <App />
   </HashRouter>,
   document.getElementById("app")
 );

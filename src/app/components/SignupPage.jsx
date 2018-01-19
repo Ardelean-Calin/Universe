@@ -15,8 +15,14 @@ export class SignupPage extends React.Component {
         className="container center-align valign-wrapper"
         style={{ height: "100%" }}
       >
-        <div className="card-panel">
-          <h4 className="center-align">Please create an account</h4>
+        <div
+          className="card-panel"
+          style={{
+            margin: "auto",
+            width: "100%"
+          }}
+        >
+          <h4 className="center-align">Create an account</h4>
           <div className="divider" />
           <br />
           <form>
@@ -31,7 +37,7 @@ export class SignupPage extends React.Component {
               <label htmlFor="inputMail">E-Mail</label>
             </div>
             <div className="input-field">
-              <i className="material-icons prefix">email</i>
+              <i className="material-icons prefix">lock</i>
               <input
                 id="inputPass"
                 type="password"
@@ -42,7 +48,7 @@ export class SignupPage extends React.Component {
               <label htmlFor="inputPass">Password</label>
             </div>
             <div className="input-field">
-              <i className="material-icons prefix">email</i>
+              <i className="material-icons prefix">lock</i>
               <input
                 id="inputPass2"
                 type="password"
@@ -51,6 +57,9 @@ export class SignupPage extends React.Component {
               />
               <label htmlFor="inputPass2">Repeat Password</label>
             </div>
+            <br />
+            <div className="divider" />
+            <br />
             <div>
               <button
                 type="submit"
