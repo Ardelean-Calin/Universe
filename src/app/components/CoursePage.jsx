@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
-import Slider from "react-slick";
+import { Element, scroller } from "react-scroll";
 
 import RatingStar from "./RatingStar";
 import ThankYou from "./ThankYou";
@@ -8,22 +9,19 @@ import ThankYou from "./ThankYou";
 export class CoursePage extends React.Component {
   constructor(props) {
     super(props);
-    this.nextQuestion = this.nextQuestion.bind(this);
+
     this.state = {
-      index: 0
+      canSubmit: false
     };
-  }
-  // TODO: Check if question was already rated, in which case I don't `slickNext` as to not annoy the user
-  nextQuestion() {
-    setTimeout(() => {
-      this.slider.slickNext();
-    }, 150);
-    this.setState({
-      index: this.state.index + 1
-    });
+
+    this.gotoQestion = this.gotoQestion.bind(this);
   }
 
   render() {
+    console.log(this.props.course.questions.length);
+    this.reviewedCourses = new Array(this.props.course.questions.length).fill(
+      0
+    );
     return (
       <div className="card z-depth-0">
         <div className="card-image">
@@ -33,37 +31,93 @@ export class CoursePage extends React.Component {
             <i className="material-icons">format_align_justify</i>
           </a>
         </div>
-        <div className="card-content">
+        <div className="card-content" ref="questionContainer">
           <div>
             <p>{this.props.course.description}</p>
           </div>
           <br />
           <div className="divider" />
-          <Slider ref={c => (this.slider = c)} dots={true} infinite={false}>
-            {this.props.course.questions.map((question, index) => (
-              <div key={index}>
-                <RatingStar
-                  question={question}
-                  onReview={() => this.nextQuestion()}
-                />
-              </div>
-            ))}
-          </Slider>
+          {this.props.course.questions.map((question, index) => (
+            <div key={index}>
+              <RatingStar
+                ref={`question_${index}`}
+                question={question}
+                onReview={() => {
+                  this.reviewedCourses[index] = 1;
+                  this.gotoQestion(
+                    index == this.props.course.questions.length - 1
+                      ? "buttonSubmit"
+                      : `question_${index + 1}`
+                  );
+                }}
+              />
+              <br />
+              <div className="divider" />
+            </div>
+          ))}
+          <div className="input-field">
+            <textarea
+              style={{ height: "5rem", maxHeight: "5rem", overflowY: "auto" }}
+              maxLength="280"
+              id="textAdditionalComment"
+              className="materialize-textarea"
+            />
+            <label htmlFor="textAdditionalComment">
+              Additional comment (280 characters)
+            </label>
+          </div>
 
-          <br />
-          <br />
-
-          <button
-            className="btn"
+          <a
+            ref="buttonSubmit"
+            className="btn indigo modal-trigger"
             style={{ width: "100%" }}
-            disabled={this.state.index != 3}
-            onClick={this.showThanks}
+            disabled={!this.state.canSubmit}
+            href="#modalThanks"
           >
             Submit Review
-          </button>
+          </a>
+        </div>
+
+        <div
+          className="modal modal-fixed-footer"
+          id="modalThanks"
+          style={{ height: "20rem" }}
+        >
+          <div className="modal-content">
+            <h4>Are you sure?</h4>
+            <p>
+              Your review will be submitted and you will not be able to edit it
+              anymore.
+            </p>
+          </div>
+          <div className="modal-footer">
+            <div style={{ display: "inline" }}>
+              <button className="modal-action modal-close waves-effect waves-red btn-flat">
+                No
+              </button>
+              <button className="modal-action modal-close waves-effect waves-green btn-flat">
+                Yes, I am sure
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
+  }
+
+  gotoQestion(reference) {
+    let node = ReactDOM.findDOMNode(this.refs[reference]);
+    node.scrollIntoView({
+      alignToTop: false,
+      behavior: "smooth",
+      block: "center"
+    });
+
+    if (this.reviewedCourses.includes(0) == false) {
+      this.setState({
+        canSubmit: true
+      });
+    }
   }
 
   showThanks() {
@@ -77,5 +131,6 @@ export class CoursePage extends React.Component {
     //   infinite: false,
     //   mobileFirst: true
     // });
+    $(".modal").modal();
   }
 }

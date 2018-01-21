@@ -60,7 +60,7 @@ export class LoginPage extends React.Component {
               <label htmlFor="inputPass">Password</label>
             </div>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary indigo"
               type="submit"
               style={{ width: "100%" }}
             >

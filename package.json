@@ -21,6 +21,7 @@
     "react-ink": "^6.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-scroll": "^1.7.6",
     "react-slick": "^0.16.0",
     "slick-carousel": "^1.8.1"
   },
