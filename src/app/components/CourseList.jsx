@@ -12,8 +12,8 @@ export class CourseList extends React.Component {
 
   render() {
     return (
-      <section>
-        <Navbar />
+      <div>
+        {/* <Navbar /> */}
         <div className="container">
           {this.props.courses.map((item, index) => (
             <HorizontalCard
@@ -25,7 +25,7 @@ export class CourseList extends React.Component {
             />
           ))}
         </div>
-      </section>
+      </div>
     );
   }
 }

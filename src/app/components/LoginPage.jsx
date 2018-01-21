@@ -1,5 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+
+import firebase from "firebase";
 
 export class LoginPage extends React.Component {
   constructor(props) {
@@ -10,6 +12,12 @@ export class LoginPage extends React.Component {
       email: "",
       password: ""
     };
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ showError: false });
+      }
+    });
 
     this.submitLogin = this.submitLogin.bind(this);
   }
@@ -27,9 +35,7 @@ export class LoginPage extends React.Component {
             width: "100%"
           }}
         >
-          <h4 className="center-align">
-            Oops! Seems like you're not signed in.
-          </h4>
+          <h4 className="center-align">Please sign in</h4>
           <div className="divider" />
           <br />
           <form onSubmit={this.submitLogin}>
@@ -74,14 +80,6 @@ export class LoginPage extends React.Component {
   submitLogin() {
     let email = this.state.email;
     let password = this.state.password;
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        console.log(user);
-        console.log("Successfully logged in!");
-        this.setState({ showError: false });
-      }
-    });
 
     let promise = firebase
       .auth()

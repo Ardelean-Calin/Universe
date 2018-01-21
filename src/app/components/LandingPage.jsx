@@ -6,11 +6,6 @@ import { Link } from "react-router-dom";
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-
-    // this.scanner = new Instascan.Scanner({
-    //   video: document.getElementById('test')
-    // });
-    // this.scanner.addListener('scan', this.codeScanned);
   }
 
   render() {

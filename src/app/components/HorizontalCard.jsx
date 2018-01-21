@@ -1,5 +1,4 @@
 import React from "react";
-import Ink from "react-ink";
 import { withRouter } from "react-router-dom";
 
 class HorizontalCard extends React.Component {
@@ -29,8 +28,6 @@ class HorizontalCard extends React.Component {
             <p>{this.props.subtitle}</p>
           </div>
         </div>
-
-        <Ink />
       </div>
     );
   }
