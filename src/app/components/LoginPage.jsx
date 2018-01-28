@@ -38,7 +38,7 @@ export class LoginPage extends React.Component {
           <h4 className="center-align">Please sign in</h4>
           <div className="divider" />
           <br />
-          <form onSubmit={this.submitLogin}>
+          <form>
             <div className="input-field">
               <i className="material-icons prefix">email</i>
               <input
@@ -63,6 +63,7 @@ export class LoginPage extends React.Component {
               className="btn btn-primary indigo"
               type="submit"
               style={{ width: "100%" }}
+              onClick={this.submitLogin}
             >
               Submit
             </button>
@@ -84,6 +85,9 @@ export class LoginPage extends React.Component {
     let promise = firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log("Successfully logged in!");
+      })
       .catch(err => {
         this.setState({ showError: true, errorMessage: err.message });
       });

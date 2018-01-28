@@ -11,14 +11,14 @@ export class CoursePage extends React.Component {
     super(props);
 
     this.state = {
-      canSubmit: false
+      canSubmit: false,
+      additionalComment: ""
     };
 
     this.gotoQestion = this.gotoQestion.bind(this);
   }
 
   render() {
-    console.log(this.props.course.questions.length);
     this.reviewedCourses = new Array(this.props.course.questions.length).fill(
       0
     );
@@ -61,6 +61,10 @@ export class CoursePage extends React.Component {
               maxLength="280"
               id="textAdditionalComment"
               className="materialize-textarea"
+              value={this.state.additionalComment}
+              onChange={e =>
+                this.setState({ additionalComment: e.target.value })
+              }
             />
             <label htmlFor="textAdditionalComment">
               Additional comment (280 characters)
@@ -125,12 +129,6 @@ export class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    // $('.slick-div').slick({
-    //   dots: true,
-    //   draggable: false,
-    //   infinite: false,
-    //   mobileFirst: true
-    // });
     $(".modal").modal();
   }
 }

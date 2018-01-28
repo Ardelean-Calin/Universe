@@ -38,6 +38,31 @@ const config = {
   messagingSenderId: "289185582138"
 };
 firebase.initializeApp(config);
+const messaging = firebase.messaging();
+messaging.onMessage(payload => {
+  console.log("Message received! ", payload);
+});
+
+// Request notification permissions from the User. This function is only run
+// after successfuly authentication.
+function requestNotificationPermission(userID) {
+  messaging
+    .requestPermission()
+    .then(() => {
+      console.log("Push notifications allowed!");
+      return messaging.getToken();
+    })
+    .then(token => {
+      console.log("Sending token to server: ", token);
+      firebase
+        .database()
+        .ref("notificationTokens/" + userID)
+        .set(token);
+    })
+    .catch(err => {
+      console.log("Push notifications denied!");
+    });
+}
 
 function PrivateRoute(props) {
   console.log("Private Route: ", props);
@@ -83,6 +108,8 @@ class App extends React.Component {
         this.setState({
           authed: true
         });
+        requestNotificationPermission(user.uid);
+        console.log(user.uid);
       } else {
         console.log("Not authenticated");
         this.setState({

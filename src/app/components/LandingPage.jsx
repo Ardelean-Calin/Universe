@@ -1,7 +1,5 @@
 import React from "react";
-import Ink from "react-ink";
 import HorizontalCard from "./HorizontalCard";
-import { Link } from "react-router-dom";
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -12,7 +10,7 @@ export class LandingPage extends React.Component {
     return (
       <div
         style={{
-          backgroundColor: "#ecf0f1",
+          backgroundColor: "#f5f6fa",
           height: "100%",
           width: "100%",
           display: "flex",
@@ -24,8 +22,6 @@ export class LandingPage extends React.Component {
         <div
           className="container"
           style={{
-            // height: '100%',
-            // width: '100%',
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -56,7 +52,6 @@ export class LandingPage extends React.Component {
                 style={{ width: "15rem" }}
                 className="btn-large waves-effect indigo"
               >
-                <Ink />
                 <i className="material-icons large white-text left">
                   library_books
                 </i>
