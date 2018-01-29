@@ -20,12 +20,11 @@ import materialIcons from "./fontstyle.css";
 import animateCSS from "./animate.css";
 
 // Components
-import { CoursePage } from "./components/CoursePage";
-import { CourseList } from "./components/CourseList";
-import { Navbar } from "./components/Navbar";
+import { SubjectPage } from "./components/SubjectPage";
+import { SubjectList } from "./components/SubjectList";
 import { ThankYou } from "./components/ThankYou";
 import { LandingPage } from "./components/LandingPage";
-import { courses } from "./database";
+import { subjects } from "./database";
 import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
 
@@ -138,16 +137,18 @@ class App extends React.Component {
           />
           <PrivateRoute
             exact
-            path="/courses"
+            path="/subjects"
             authed={this.state.authed}
-            render={props => <CourseList courses={courses} />}
+            render={props => <SubjectList subjects={subjects} />}
           />
           <PrivateRoute
             exact
-            path="/course/:number"
+            path="/subject/:number"
             authed={this.state.authed}
             render={({ match }) => (
-              <CoursePage course={courses[parseInt(match.params.number - 1)]} />
+              <SubjectPage
+                subject={subjects[parseInt(match.params.number - 1)]}
+              />
             )}
           />
         </Switch>
@@ -155,10 +156,7 @@ class App extends React.Component {
     );
   }
 
-  componentDidMount() {
-    // $('.modal').modal();
-    // $('#modalThanks').modal('open');
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {
     firebase.auth().signOut();

@@ -47,7 +47,7 @@ export class LandingPage extends React.Component {
             <div className="center-align">
               <button
                 onClick={() =>
-                  setTimeout(() => this.props.history.push("/courses"), 200)
+                  setTimeout(() => this.props.history.push("/subjects"), 200)
                 }
                 style={{ width: "15rem" }}
                 className="btn-large waves-effect indigo"
@@ -56,6 +56,20 @@ export class LandingPage extends React.Component {
                   library_books
                 </i>
                 Lectures
+              </button>
+              <br />
+              <br />
+              <button
+                // onClick={() =>
+                //   setTimeout(() => this.props.history.push("/schedule"), 200)
+                // }
+                style={{ width: "15rem" }}
+                className="btn-large waves-effect indigo"
+              >
+                <i className="material-icons large white-text left">
+                  date_range
+                </i>
+                Schedule
               </button>
             </div>
           </div>
