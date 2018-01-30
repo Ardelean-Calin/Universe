@@ -52,7 +52,7 @@ export class QuestionsPage extends React.Component {
         <div className="center-align">
           <a
             ref="buttonSubmit"
-            className="btn-flat  modal-trigger"
+            className="btn-flat modal-trigger"
             disabled={!this.state.canSubmit}
             href="#modalThanks"
           >

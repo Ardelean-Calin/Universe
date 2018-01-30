@@ -1,22 +1,6 @@
 import React from "react";
 
 import { QeustionsPage, QuestionsPage } from "./QuestionsPage";
-let courseQuestions = [
-  {
-    title: "How would you rate the course?",
-    detail:
-      "Please rate the content of the course and it's usefulness to your personal development."
-  },
-  {
-    title: "How would you rate the redaction of the course?",
-    detail: "Was the course presented in a meaningful way? Was it engaging?"
-  },
-  {
-    title: "How likely are you to recommend this course?",
-    detail:
-      'This is the overall "cool factor" of the course. Did you think it was worth your time?'
-  }
-];
 
 export default class SubjectCollapsible extends React.Component {
   constructor(props) {
@@ -47,55 +31,63 @@ export default class SubjectCollapsible extends React.Component {
   }
 
   render() {
-    return (
-      <ul className="collapsible" data-collapsible="accordion">
-        {this.props.courses.map((c, index) => (
-          <li>
-            <div className="collapsible-header flow-text">
-              {this.props.prefix == "Course" ? (
-                <i className="material-icons">import_contacts</i>
-              ) : (
-                <i className="material-icons">build</i>
-              )}
-              {this.props.prefix} {c.number}
-              <span
-                class="new badge"
-                data-badge-caption={this.getDateString(c.date, true)}
-              />
-            </div>
-            <div
-              className="collapsible-body"
-              style={{ padding: "1rem", background: "#FAFAFA" }}
-            >
-              <div>
-                <h5>{c.title}</h5>
-                <p className="flow-text">{c.subtitle}</p>
-                <p className="flow-text">
-                  <strong>Date: </strong>
-                  <span style={{ marginLeft: "1.3rem" }}>
-                    {this.getDateString(c.date)}
-                  </span>
-                </p>
-                <p className="flow-text">
-                  <strong>Time: </strong>
-                  <span style={{ marginLeft: "1rem" }}>
-                    {this.getTimeString(c.date)}
-                  </span>
-                </p>
-                <div
-                  style={{ marginTop: "0.5rem", marginBottom: "1rem" }}
-                  className="divider"
+    if (this.props.courses.length > 0)
+      return (
+        <ul className="collapsible" data-collapsible="accordion">
+          {this.props.courses.map(([key, value], index) => (
+            <li>
+              <div className="collapsible-header flow-text">
+                {this.props.prefix == "Cursul" ? (
+                  <i className="material-icons">import_contacts</i>
+                ) : (
+                  <i className="material-icons">build</i>
+                )}
+                {this.props.prefix} {value.index}
+                <span
+                  class="new badge"
+                  data-badge-caption={this.getDateString(value.date, true)}
                 />
-                <QuestionsPage questions={courseQuestions} />
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    );
+              <div
+                className="collapsible-body"
+                style={{ padding: "1rem", background: "#FAFAFA" }}
+              >
+                <div>
+                  <h5>{value.title}</h5>
+                  <p className="flow-text">{value.subtitle}</p>
+                  <p className="flow-text">
+                    <strong>Date: </strong>
+                    <span style={{ marginLeft: "1.3rem" }}>
+                      {this.getDateString(value.date)}
+                    </span>
+                  </p>
+                  <p className="flow-text">
+                    <strong>Time: </strong>
+                    <span style={{ marginLeft: "1rem" }}>
+                      {this.getTimeString(value.date)}
+                    </span>
+                  </p>
+                  <div
+                    style={{ marginTop: "0.5rem", marginBottom: "1rem" }}
+                    className="divider"
+                  />
+                  <QuestionsPage questions={this.props.questions} />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      );
+    else {
+      return "";
+    }
   }
 
   componentDidMount() {
+    $(".collapsible").collapsible();
+  }
+
+  componentDidUpdate() {
     $(".collapsible").collapsible();
   }
 }

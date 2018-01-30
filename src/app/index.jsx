@@ -24,7 +24,6 @@ import { SubjectPage } from "./components/SubjectPage";
 import { SubjectList } from "./components/SubjectList";
 import { ThankYou } from "./components/ThankYou";
 import { LandingPage } from "./components/LandingPage";
-import { subjects } from "./database";
 import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
 
@@ -37,9 +36,11 @@ const config = {
   messagingSenderId: "289185582138"
 };
 firebase.initializeApp(config);
+
+// Push notifications
 const messaging = firebase.messaging();
 messaging.onMessage(payload => {
-  console.log("Message received! ", payload);
+  Materialize.toast("Recenzie noua disponibila!", 4000);
 });
 
 // Request notification permissions from the User. This function is only run
@@ -78,17 +79,12 @@ function PrivateRoute(props) {
   );
 }
 
-// function PublicRoute({ authed }) {
+// function PublicRoute(props) {
 //   return (
 //     <Route
-//       {...rest}
-//       render={props =>
-//         authed === false ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect to="/dashboard" />
-//         )
-//       }
+//       exact
+//       path={props.path}
+//       render={props.authed === false ? props.render : () => <LandingPage />}
 //     />
 //   );
 // }
@@ -98,24 +94,87 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      authed: firebase.auth().currentUser === null ? false : true // If user is authenticated, I start as authed
+      authed: firebase.auth().currentUser === null ? false : true, // If user is authenticated, I start as authed
+      userID: null,
+      subjects: {},
+      courses: {},
+      laboratories: {},
+      courseQuestions: {},
+      laboratoryQuestions: {}
     };
+
+    this.loadDataFromDatabase = this.loadDataFromDatabase.bind(this);
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("Authentication successful");
+        // Authentication successful
         this.setState({
-          authed: true
+          authed: true,
+          userID: user.uid
         });
+
+        this.loadDataFromDatabase();
         requestNotificationPermission(user.uid);
-        console.log(user.uid);
       } else {
-        console.log("Not authenticated");
+        // Authentication unsuccessful
         this.setState({
           authed: false
         });
       }
     });
+  }
+
+  loadDataFromDatabase() {
+    firebase
+      .database()
+      .ref("/subjects")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          subjects: snapshot.val()
+        });
+      });
+
+    firebase
+      .database()
+      .ref("/courses")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          courses: snapshot.val()
+        });
+        this.filterBySubject(this.state.courses, "s1");
+      });
+
+    firebase
+      .database()
+      .ref("/laboratories")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          laboratories: snapshot.val()
+        });
+      });
+
+    firebase
+      .database()
+      .ref("/questionsCourses")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          courseQuestions: snapshot.val()
+        });
+      });
+
+    firebase
+      .database()
+      .ref("/questionsLaboratory")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          laboratoryQuestions: snapshot.val()
+        });
+      });
   }
 
   render() {
@@ -139,20 +198,41 @@ class App extends React.Component {
             exact
             path="/subjects"
             authed={this.state.authed}
-            render={props => <SubjectList subjects={subjects} />}
+            render={props => <SubjectList subjects={this.state.subjects} />}
           />
           <PrivateRoute
             exact
-            path="/subject/:number"
+            path="/subject/:id"
             authed={this.state.authed}
             render={({ match }) => (
               <SubjectPage
-                subject={subjects[parseInt(match.params.number - 1)]}
+                subjectID={match.params.id}
+                imageURL={this.state.subjects[match.params.id].imageURL}
+                courses={this.filterBySubject(
+                  this.state.courses,
+                  match.params.id
+                )}
+                laboratories={this.filterBySubject(
+                  this.state.laboratories,
+                  match.params.id
+                )}
+                courseQuestions={Object.values(this.state.courseQuestions)}
+                laboratoryQuestions={Object.values(
+                  this.state.laboratoryQuestions
+                )}
+                subject={this.state.subjects[match.params.id]}
               />
             )}
           />
         </Switch>
       </div>
+    );
+  }
+
+  // Filters courses based on subject ID
+  filterBySubject(toBeFiltered, subjectID) {
+    return Object.entries(toBeFiltered).filter(
+      ([key, val]) => val.subjectID == subjectID
     );
   }
 

@@ -1,7 +1,6 @@
 import React from "react";
 
 import HorizontalCard from "./HorizontalCard";
-import SubjectCollapsible from "./SubjectCollapsible";
 
 import { Link } from "react-router-dom";
 
@@ -14,14 +13,14 @@ export class SubjectList extends React.Component {
     return (
       <div>
         <div>
-          {this.props.subjects.map((item, index) => (
+          {Object.entries(this.props.subjects).map(([key, value], index) => (
             <HorizontalCard
-              title={item.title}
-              subtitle={item.subtitle}
-              image={item.image}
+              title={value.title}
+              subtitle={value.subtitle}
+              image={value.imageURL}
               notifications={2}
               key={index}
-              linkTo={"/subject/" + item.index}
+              linkTo={"/subject/" + key}
             />
           ))}
         </div>

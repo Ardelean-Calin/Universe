@@ -16,7 +16,7 @@ export class SubjectPage extends React.Component {
     return (
       <div className="card z-depth-0">
         <div className="card-image">
-          <img src={this.props.subject.image} className="responsive-img" />
+          <img src={this.props.subject.imageURL} className="responsive-img" />
           <span className="card-title flow-text">
             {this.props.subject.title}
           </span>
@@ -32,14 +32,25 @@ export class SubjectPage extends React.Component {
             style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
             className="divider"
           />
-          <SubjectCollapsible
-            courses={this.props.subject.courses}
-            prefix="Course"
-          />
-          <SubjectCollapsible
-            courses={this.props.subject.laboratories}
-            prefix="Laboratory"
-          />
+          {Object.keys(this.props.courses).length == 0 &&
+          Object.keys(this.props.laboratories).length == 0 ? (
+            <p className="flow-text center-align">
+              Nici-o recenzie disponibila!
+            </p>
+          ) : (
+            <div>
+              <SubjectCollapsible
+                courses={this.props.courses}
+                questions={this.props.courseQuestions}
+                prefix="Cursul"
+              />
+              <SubjectCollapsible
+                courses={this.props.laboratories}
+                questions={this.props.laboratoryQuestions}
+                prefix="Laboratorul"
+              />
+            </div>
+          )}
         </div>
 
         <div
@@ -67,10 +78,6 @@ export class SubjectPage extends React.Component {
         </div>
       </div>
     );
-  }
-
-  showThanks() {
-    alert("Not yet implemented! Back-end not ready.");
   }
 
   componentDidMount() {
