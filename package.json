@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build",
-    "build": "webpack -d && cp src/index.html dist/index.html && cp src/service-worker.js dist/service-worker.js && cp -R src/images dist/images && cp src/manifest.json dist/manifest.json && webpack-dev-server --content-base dist/ --inline --hot",
-    "build:prod": "webpack -p && cp src/index.html dist/index.html && cp src/service-worker.js dist/service-worker.js && cp -R src/images dist/images && cp src/manifest.json dist/manifest.json"
+    "build":
+      "webpack -d && cp src/index.html dist/index.html && cp src/service-worker.js dist/service-worker.js && cp src/firebase-messaging-sw.js dist/firebase-messaging-sw.js && cp src/manifest.json dist/manifest.json && webpack-dev-server --content-base dist/ --inline --hot",
+    "build:prod":
+      "webpack -p && cp src/index.html dist/index.html && cp src/service-worker.js dist/service-worker.js && cp src/firebase-messaging-sw.js dist/firebase-messaging-sw.js && cp src/manifest.json dist/manifest.json"
   },
   "author": "Ardelean Calin (calin.ardelean@ro.bosch.com)",
   "license": "ISC",

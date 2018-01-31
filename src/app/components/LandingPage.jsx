@@ -50,13 +50,24 @@ export class LandingPage extends React.Component {
                   setTimeout(() => this.props.history.push("/subjects"), 200)
                 }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect waves-light indigo"
+                className="btn-large waves-effect waves-light white black-text"
               >
-                <i className="material-icons large white-text left">
-                  library_books
-                </i>
+                <i className="material-icons large left">library_books</i>
                 Lectures
+                <span
+                  className="new badge right indigo"
+                  data-badge-caption=""
+                  style={{
+                    position: "absolute",
+                    top: "0.1rem",
+                    right: "0.1rem",
+                    minWidth: "2rem"
+                  }}
+                >
+                  2
+                </span>
               </button>
+
               <br />
               <br />
               <button
@@ -64,11 +75,9 @@ export class LandingPage extends React.Component {
                 //   setTimeout(() => this.props.history.push("/schedule"), 200)
                 // }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect waves-light indigo"
+                className="btn-large waves-effect waves-light white black-text"
               >
-                <i className="material-icons large white-text left">
-                  date_range
-                </i>
+                <i className="material-icons large left">date_range</i>
                 Schedule
               </button>
             </div>
