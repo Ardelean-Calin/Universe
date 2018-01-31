@@ -50,7 +50,7 @@ export class LandingPage extends React.Component {
                   setTimeout(() => this.props.history.push("/subjects"), 200)
                 }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect waves-light white black-text"
+                className="btn-large waves-effect white black-text"
               >
                 <i className="material-icons large left">library_books</i>
                 Lectures
@@ -75,7 +75,7 @@ export class LandingPage extends React.Component {
                 //   setTimeout(() => this.props.history.push("/schedule"), 200)
                 // }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect waves-light white black-text"
+                className="btn-large waves-effect white black-text"
               >
                 <i className="material-icons large left">date_range</i>
                 Schedule
