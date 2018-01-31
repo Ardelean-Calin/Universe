@@ -5,8 +5,8 @@
   "background_color": "#7f8c8d",
   "display": "standalone",
   "orientation": "portrait",
-  "Scope": "/",
-  "start_url": "/Universe",
+  "Scope": "/Universe/",
+  "start_url": "/Universe/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
