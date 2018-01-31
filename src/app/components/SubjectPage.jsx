@@ -42,45 +42,19 @@ export class SubjectPage extends React.Component {
               <SubjectCollapsible
                 courses={this.props.courses}
                 questions={this.props.courseQuestions}
+                submitReview={this.props.submitReview}
                 prefix="Cursul"
               />
               <SubjectCollapsible
                 courses={this.props.laboratories}
                 questions={this.props.laboratoryQuestions}
+                submitReview={this.props.submitReview}
                 prefix="Laboratorul"
               />
             </div>
           )}
         </div>
-
-        <div
-          className="modal modal-fixed-footer"
-          id="modalThanks"
-          style={{ height: "20rem" }}
-        >
-          <div className="modal-content">
-            <h4>Are you sure?</h4>
-            <p>
-              Your review will be submitted and you will not be able to edit it
-              anymore.
-            </p>
-          </div>
-          <div className="modal-footer">
-            <div style={{ display: "inline" }}>
-              <button className="modal-action modal-close waves-effect waves-red btn-flat">
-                No
-              </button>
-              <button className="modal-action modal-close waves-effect waves-green btn-flat">
-                Yes, I am sure
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    $(".modal").modal();
   }
 }

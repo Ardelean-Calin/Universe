@@ -1,5 +1,6 @@
 import React from "react";
 import HorizontalCard from "./HorizontalCard";
+import { NewsCard } from "./NewsCard";
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -28,11 +29,10 @@ export class LandingPage extends React.Component {
             alignContent: "center"
           }}
         >
-          <HorizontalCard
-            style={{ padding: "1rem" }}
-            image="https://www.shareicon.net/download/2015/08/04/80089_newspaper.svg"
-            title="News here"
-            subtitle="More details here"
+          <NewsCard
+            news={this.props.news}
+            author={this.props.author}
+            submitNews={this.props.submitNews}
           />
           <div className="divider" />
           <br />
@@ -50,7 +50,7 @@ export class LandingPage extends React.Component {
                   setTimeout(() => this.props.history.push("/subjects"), 200)
                 }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect indigo"
+                className="btn-large waves-effect waves-light indigo"
               >
                 <i className="material-icons large white-text left">
                   library_books
@@ -64,7 +64,7 @@ export class LandingPage extends React.Component {
                 //   setTimeout(() => this.props.history.push("/schedule"), 200)
                 // }
                 style={{ width: "15rem" }}
-                className="btn-large waves-effect indigo"
+                className="btn-large waves-effect waves-light indigo"
               >
                 <i className="material-icons large white-text left">
                   date_range

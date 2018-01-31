@@ -35,7 +35,7 @@ export default class Stars extends React.Component {
     this.setState({
       rating: i
     });
-    this.props.onClick();
+    this.props.onClick(i);
   }
 
   render() {

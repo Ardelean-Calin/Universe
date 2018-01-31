@@ -11,7 +11,10 @@ export class QuestionsPage extends React.Component {
       additionalComment: ""
     };
 
+    this.answers = {};
+
     this.gotoQestion = this.gotoQestion.bind(this);
+    this.submitReview = this.submitReview.bind(this);
   }
 
   render() {
@@ -24,7 +27,8 @@ export class QuestionsPage extends React.Component {
             <RatingStar
               ref={`question_${index}`}
               question={question}
-              onReview={() => {
+              onReview={answer => {
+                this.answers[question.id] = answer;
                 this.reviewedCourses[index] = 1;
                 this.gotoQestion(
                   index == this.props.questions.length - 1
@@ -46,18 +50,18 @@ export class QuestionsPage extends React.Component {
             onChange={e => this.setState({ additionalComment: e.target.value })}
           />
           <label htmlFor="textAdditionalComment">
-            Additional comment (280 characters)
+            Comentariu aditional (280 de caractere)
           </label>
         </div>
         <div className="center-align">
-          <a
+          <button
             ref="buttonSubmit"
-            className="btn-flat modal-trigger"
+            className="btn-flat waves-effect"
+            onClick={this.submitReview}
             disabled={!this.state.canSubmit}
-            href="#modalThanks"
           >
             Submit Review
-          </a>
+          </button>
         </div>
       </div>
     );
@@ -76,5 +80,9 @@ export class QuestionsPage extends React.Component {
         canSubmit: true
       });
     }
+  }
+
+  submitReview() {
+    this.props.onSubmit(this.answers, this.state.additionalComment);
   }
 }

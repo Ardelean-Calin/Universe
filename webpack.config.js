@@ -17,7 +17,7 @@ config = {
     extensions: [".js", ".jsx"],
     alias: {
       "create-react-class": "preact-compat/lib/create-react-class",
-      "react": "preact-compat",
+      react: "preact-compat",
       "react-dom": "preact-compat"
     }
   },
@@ -28,7 +28,8 @@ config = {
         include: SRC_DIR,
         loader: "babel-loader",
         query: {
-          presets: ["react", "env"]
+          presets: ["react", "env"],
+          plugins: ["transform-object-rest-spread"]
         }
       },
       {
@@ -64,8 +65,7 @@ config = {
       }
     ]
   },
-  plugins: [new ExtractTextPlugin("styles.css")]
-  // plugins: [new BundleAnalyzerPlugin()]
+  plugins: [new ExtractTextPlugin("styles.css")] //, new BundleAnalyzerPlugin()]
 };
 
 module.exports = config;

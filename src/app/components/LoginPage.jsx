@@ -61,7 +61,6 @@ export class LoginPage extends React.Component {
             </div>
             <button
               className="btn btn-primary indigo"
-              type="submit"
               style={{ width: "100%" }}
               onClick={this.submitLogin}
             >
@@ -87,6 +86,7 @@ export class LoginPage extends React.Component {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         console.log("Successfully logged in!");
+        this.props.history.push("/");
       })
       .catch(err => {
         this.setState({ showError: true, errorMessage: err.message });

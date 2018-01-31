@@ -31,9 +31,10 @@ class HorizontalCard extends React.Component {
             <span
               style={{ position: "absolute", top: "5px", right: "5px" }}
               class="new badge indigo"
-            >
-              {this.props.notifications}
-            </span>
+              data-badge-caption={`${this.props.notifications} ${
+                this.props.notifications == 1 ? " nou" : " noi"
+              }`}
+            />
           ) : (
             ""
           )}

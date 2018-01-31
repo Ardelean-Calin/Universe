@@ -13,8 +13,6 @@ import {
 import firebase from "firebase";
 
 // Stylesheets
-import slick from "../../node_modules/slick-carousel/slick/slick.css";
-import slickTheme from "../../node_modules/slick-carousel/slick/slick-theme.css";
 import materialize from "../../node_modules/materialize-css/dist/css/materialize.css";
 import materialIcons from "./fontstyle.css";
 import animateCSS from "./animate.css";
@@ -96,22 +94,28 @@ class App extends React.Component {
     this.state = {
       authed: firebase.auth().currentUser === null ? false : true, // If user is authenticated, I start as authed
       userID: null,
+      author: null,
+      newsText: "",
+      newsAuthor: "",
       subjects: {},
       courses: {},
       laboratories: {},
       courseQuestions: {},
-      laboratoryQuestions: {}
+      laboratoryQuestions: {},
+      alreadyReviewed: []
     };
 
-    this.loadDataFromDatabase = this.loadDataFromDatabase.bind(this);
+    this.notifications = {};
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // Authentication successful
         this.setState({
           authed: true,
-          userID: user.uid
+          userID: user.uid,
+          author: user.displayName
         });
+        console.log(user);
 
         this.loadDataFromDatabase();
         requestNotificationPermission(user.uid);
@@ -122,12 +126,16 @@ class App extends React.Component {
         });
       }
     });
+
+    this.loadDataFromDatabase = this.loadDataFromDatabase.bind(this);
+    this.submitReview = this.submitReview.bind(this);
+    this.submitNews = this.submitNews.bind(this);
   }
 
   loadDataFromDatabase() {
     firebase
       .database()
-      .ref("/subjects")
+      .ref("subjects/")
       .once("value")
       .then(snapshot => {
         this.setState({
@@ -137,18 +145,17 @@ class App extends React.Component {
 
     firebase
       .database()
-      .ref("/courses")
+      .ref("courses/")
       .once("value")
       .then(snapshot => {
         this.setState({
           courses: snapshot.val()
         });
-        this.filterBySubject(this.state.courses, "s1");
       });
 
     firebase
       .database()
-      .ref("/laboratories")
+      .ref("laboratories/")
       .once("value")
       .then(snapshot => {
         this.setState({
@@ -158,7 +165,7 @@ class App extends React.Component {
 
     firebase
       .database()
-      .ref("/questionsCourses")
+      .ref("questionsCourses/")
       .once("value")
       .then(snapshot => {
         this.setState({
@@ -168,11 +175,31 @@ class App extends React.Component {
 
     firebase
       .database()
-      .ref("/questionsLaboratory")
+      .ref("questionsLaboratory/")
       .once("value")
       .then(snapshot => {
         this.setState({
           laboratoryQuestions: snapshot.val()
+        });
+      });
+
+    firebase
+      .database()
+      .ref("users/" + this.state.userID)
+      .on("value", snapshot => {
+        this.setState({
+          alreadyReviewed: Object.values(snapshot.val())
+        });
+      });
+
+    // Update news article
+    firebase
+      .database()
+      .ref("news/")
+      .on("value", snapshot => {
+        this.setState({
+          newsAuthor: snapshot.val().author,
+          newsText: snapshot.val().text
         });
       });
   }
@@ -181,7 +208,19 @@ class App extends React.Component {
     return (
       <div style={{ height: "100%" }}>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <PrivateRoute
+            exact
+            path="/"
+            authed={this.state.authed}
+            render={props => (
+              <LandingPage
+                {...props}
+                submitNews={this.submitNews}
+                author={this.state.newsAuthor}
+                news={this.state.newsText}
+              />
+            )}
+          />
           <Route
             exact
             path="/signup"
@@ -208,6 +247,7 @@ class App extends React.Component {
               <SubjectPage
                 subjectID={match.params.id}
                 imageURL={this.state.subjects[match.params.id].imageURL}
+                submitReview={this.submitReview}
                 courses={this.filterBySubject(
                   this.state.courses,
                   match.params.id
@@ -231,15 +271,56 @@ class App extends React.Component {
 
   // Filters courses based on subject ID
   filterBySubject(toBeFiltered, subjectID) {
-    return Object.entries(toBeFiltered).filter(
-      ([key, val]) => val.subjectID == subjectID
+    let currentDate = new Date();
+    let filtered = Object.entries(toBeFiltered).filter(
+      ([key, val]) =>
+        val.subjectID == subjectID &&
+        this.state.alreadyReviewed.includes(key) == false &&
+        currentDate.getTime() > new Date(val.date).getTime()
     );
+
+    this.notifications[subjectID] = filtered.length;
+    // this.setState({
+    //   notifications: { ...notifications }
+    // });
+
+    console.log(this.notifications);
+    return filtered;
   }
 
   componentDidMount() {}
 
   componentWillUnmount() {
-    firebase.auth().signOut();
+    // firebase.auth().signOut();
+  }
+
+  submitReview(index, answers, additionalComment) {
+    firebase
+      .database()
+      .ref("answers/" + index + "/" + this.state.userID)
+      .set({
+        ...answers,
+        additionalComment: additionalComment
+      });
+
+    firebase
+      .database()
+      .ref("users/" + this.state.userID)
+      .push()
+      .set(index)
+      .then(() => {
+        Materialize.toast("Recenzia a fost trimisa!", 4000);
+      });
+  }
+
+  submitNews(content) {
+    firebase
+      .database()
+      .ref("news/")
+      .set({
+        author: this.state.author,
+        text: content
+      });
   }
 }
 

@@ -25,6 +25,7 @@ export class SignupPage extends React.Component {
           // )}.png`
         });
         console.log(user);
+        console.log(this.state.displayName);
         this.setState({ showError: false });
       }
     });
@@ -48,7 +49,7 @@ export class SignupPage extends React.Component {
           <h4 className="center-align">Create an account</h4>
           <div className="divider" />
           <br />
-          <form onSubmit={this.submitSignup}>
+          <form>
             <div className="input-field">
               <i className="material-icons prefix">person</i>
               <input
@@ -96,9 +97,9 @@ export class SignupPage extends React.Component {
             <br />
             <div>
               <button
-                type="submit"
-                className="btn btn-primary"
+                className="btn indigo"
                 style={{ width: "100%" }}
+                onClick={this.submitSignup}
               >
                 Submit
               </button>
@@ -117,6 +118,9 @@ export class SignupPage extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.pass1)
+      .then(() => {
+        this.props.history.push("/");
+      })
       .catch(err => {
         this.setState({
           showError: true,
