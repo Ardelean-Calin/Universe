@@ -43,7 +43,7 @@ messaging.onMessage(payload => {
 
 // Request notification permissions from the User. This function is only run
 // after successfuly authentication.
-function requestNotificationPermission(userID) {
+function requestNotificationPermission() {
   messaging
     .requestPermission()
     .then(() => {
@@ -54,7 +54,7 @@ function requestNotificationPermission(userID) {
       console.log("Sending token to server: ", token);
       firebase
         .database()
-        .ref("notificationTokens/" + userID)
+        .push("notificationTokens/")
         .set(token);
     })
     .catch(err => {
@@ -118,7 +118,7 @@ class App extends React.Component {
         console.log(user);
 
         this.loadDataFromDatabase();
-        requestNotificationPermission(user.uid);
+        // requestNotificationPermission(user.uid);
       } else {
         // Authentication unsuccessful
         this.setState({
@@ -288,7 +288,9 @@ class App extends React.Component {
     return filtered;
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    requestNotificationPermission();
+  }
 
   componentWillUnmount() {
     // firebase.auth().signOut();
