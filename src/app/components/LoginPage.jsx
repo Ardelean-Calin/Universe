@@ -24,20 +24,28 @@ export class LoginPage extends React.Component {
 
   render() {
     return (
-      <div
-        className="container center-align valign-wrapper"
-        style={{ height: "100%" }}
-      >
+      <div className="center-align" style={{ height: "100%" }}>
         <div
-          className="card-panel"
+          className="indigo"
           style={{
-            margin: "auto",
-            width: "100%"
+            height: "35%",
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center"
           }}
         >
-          <h4 className="center-align">Please sign in</h4>
+          <img
+            src="https://i.imgur.com/FSvbyvW.png"
+            style={{
+              width: "10rem",
+              height: "10rem",
+              margin: "auto"
+            }}
+          />
+        </div>
+        <div style={{ width: "80%", margin: "auto" }}>
+          <h4 className="center-align">LOGIN</h4>
           <div className="divider" />
-          <br />
           <form>
             <div className="input-field">
               <i className="material-icons prefix">email</i>
@@ -60,24 +68,32 @@ export class LoginPage extends React.Component {
               <label htmlFor="inputPass">Password</label>
             </div>
             <button
-              className="btn btn-primary indigo"
+              className="btn btn-primary indigo waves-effect"
               style={{ width: "100%" }}
               onClick={this.submitLogin}
+              type="button"
             >
-              Submit
+              LOG IN
             </button>
           </form>
           <br />
           {this.state.showError == true && (
             <p style={{ color: "#e74c3c" }}>{this.state.errorMessage}</p>
           )}
-          <Link to="/signup">Don't have an account?</Link>
+          <Link to="/signup" style={{ marginBottom: "1rem" }}>
+            Don't have an account?
+          </Link>
         </div>
       </div>
     );
   }
 
   submitLogin() {
+    // First reset any previous errors.
+    this.setState({
+      showError: false
+    });
+
     let email = this.state.email;
     let password = this.state.password;
 

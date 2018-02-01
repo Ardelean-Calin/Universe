@@ -1,7 +1,7 @@
 // Save resources in cache
 self.addEventListener("install", function(event) {
   event.waitUntil(
-    caches.open("calin-cache-v2").then(function(cache) {
+    caches.open("calin-cache-v3").then(function(cache) {
       return cache.addAll(["index.html", "bundle.js", "styles.css"]);
     })
   );

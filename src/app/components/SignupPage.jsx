@@ -35,20 +35,28 @@ export class SignupPage extends React.Component {
 
   render() {
     return (
-      <div
-        className="container center-align valign-wrapper"
-        style={{ height: "100%" }}
-      >
+      <div className="center-align" style={{ height: "100%" }}>
         <div
-          className="card-panel"
+          className="indigo"
           style={{
-            margin: "auto",
-            width: "100%"
+            height: "12rem",
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center"
           }}
         >
-          <h4 className="center-align">Create an account</h4>
+          <img
+            src="https://i.imgur.com/FSvbyvW.png"
+            style={{
+              width: "10rem",
+              height: "10rem",
+              margin: "auto"
+            }}
+          />
+        </div>
+        <div style={{ width: "80%", margin: "auto" }}>
+          <h4 className="center-align">REGISTER</h4>
           <div className="divider" />
-          <br />
           <form>
             <div className="input-field">
               <i className="material-icons prefix">person</i>
@@ -92,22 +100,22 @@ export class SignupPage extends React.Component {
               />
               <label htmlFor="inputPass2">Repeat Password</label>
             </div>
-            <br />
-            <div className="divider" />
-            <br />
             <div>
               <button
                 className="btn indigo"
                 style={{ width: "100%" }}
                 onClick={this.submitSignup}
+                type="button"
               >
-                Submit
+                REGISTER
               </button>
             </div>
           </form>
           <div className="divider" />
           {this.state.showError == true && (
-            <p style={{ color: "#e74c3c" }}>{this.state.errorMessage}</p>
+            <p style={{ color: "#e74c3c", marginBottom: "1rem" }}>
+              {this.state.errorMessage}
+            </p>
           )}
         </div>
       </div>
@@ -115,6 +123,19 @@ export class SignupPage extends React.Component {
   }
 
   submitSignup() {
+    // First reset any previous errors.
+    this.setState({
+      showError: false
+    });
+
+    if (this.state.displayName.length == 0) {
+      this.setState({
+        showError: true,
+        errorMessage: "Please enter your full name."
+      });
+      return;
+    }
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.pass1)

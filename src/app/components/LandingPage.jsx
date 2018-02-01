@@ -11,7 +11,8 @@ export class LandingPage extends React.Component {
     return (
       <div
         style={{
-          backgroundColor: "#f5f6fa",
+          // backgroundColor: "#f5f6fa",
+          // backgroundColor: "#ffffff",
           height: "100%",
           width: "100%",
           display: "flex",
