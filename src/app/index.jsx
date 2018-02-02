@@ -97,6 +97,7 @@ class App extends React.Component {
       author: null,
       newsText: "",
       newsAuthor: "",
+      newsDate: new Date(),
       subjects: {},
       courses: {},
       laboratories: {},
@@ -199,7 +200,8 @@ class App extends React.Component {
       .on("value", snapshot => {
         this.setState({
           newsAuthor: snapshot.val().author,
-          newsText: snapshot.val().text
+          newsText: snapshot.val().text,
+          newsDate: snapshot.val().date
         });
       });
   }
@@ -218,6 +220,7 @@ class App extends React.Component {
                 submitNews={this.submitNews}
                 author={this.state.newsAuthor}
                 news={this.state.newsText}
+                newsDate={this.state.newsDate}
               />
             )}
           />
@@ -318,8 +321,9 @@ class App extends React.Component {
       .database()
       .ref("news/")
       .set({
-        author: this.state.author,
-        text: content
+        author: this.state.author || "Anonymous",
+        text: content,
+        date: new Date().toLocaleString()
       });
   }
 }

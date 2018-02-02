@@ -13,8 +13,15 @@ export class NewsCard extends React.Component {
   }
 
   render() {
+    let dateOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    };
     return (
-      <div className="card-panel white">
+      <div>
         {this.state.editMode ? (
           <div>
             <div className="input-field">
@@ -42,20 +49,31 @@ export class NewsCard extends React.Component {
             </div>
           </div>
         ) : (
-          <div>
-            <span className="right">
-              <button
-                onClick={() => this.setState({ editMode: true })}
-                className="btn-floating waves-effect waves-light"
+          <div style={{ position: "relative" }}>
+            <button
+              style={{ position: "absolute", top: "1rem", right: "1rem" }}
+              onClick={() => this.setState({ editMode: true })}
+              className="btn-floating waves-effect waves-light indigo"
+            >
+              <i className="material-icons">edit</i>
+            </button>
+            <div className="card-panel white">
+              <h5>Ultima noutate </h5>
+              <div className="divider" />
+              <blockquote className="flow-text">{this.props.news}</blockquote>
+              <div
+                className="right-align flow-text"
+                style={{ marginTop: "1rem" }}
               >
-                <i className="material-icons">edit</i>
-              </button>
-            </span>
-            <h5>Ultima noutate: </h5>
-            <div className="divider" />
-            <blockquote className="flow-text">{this.props.news}</blockquote>
-            <div className="divider" />
-            <p className="right-align">{this.props.author}</p>
+                <strong>{this.props.author}</strong>
+              </div>
+              <div className="right-align" style={{ marginBottom: "0.5rem" }}>
+                {new Date(this.props.date).toLocaleTimeString(
+                  "en-US",
+                  dateOptions
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

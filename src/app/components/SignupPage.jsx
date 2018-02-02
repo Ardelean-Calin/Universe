@@ -48,8 +48,8 @@ export class SignupPage extends React.Component {
           <img
             src="https://i.imgur.com/FSvbyvW.png"
             style={{
-              width: "10rem",
-              height: "10rem",
+              width: "8rem",
+              height: "8rem",
               margin: "auto"
             }}
           />
@@ -111,11 +111,12 @@ export class SignupPage extends React.Component {
               </button>
             </div>
           </form>
-          <div className="divider" />
-          {this.state.showError == true && (
+          {this.state.showError == true ? (
             <p style={{ color: "#e74c3c", marginBottom: "1rem" }}>
               {this.state.errorMessage}
             </p>
+          ) : (
+            <br />
           )}
         </div>
       </div>

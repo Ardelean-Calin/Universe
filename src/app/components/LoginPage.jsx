@@ -24,11 +24,11 @@ export class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className="center-align" style={{ height: "100%" }}>
+      <div className="center-align" style={{ height: "auto" }}>
         <div
           className="indigo"
           style={{
-            height: "35%",
+            height: "12rem",
             display: "flex",
             justifyContent: "center",
             alignContent: "center"
@@ -37,8 +37,8 @@ export class LoginPage extends React.Component {
           <img
             src="https://i.imgur.com/FSvbyvW.png"
             style={{
-              width: "10rem",
-              height: "10rem",
+              width: "8rem",
+              height: "8rem",
               margin: "auto"
             }}
           />

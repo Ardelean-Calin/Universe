@@ -9,31 +9,36 @@ export class LandingPage extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          // backgroundColor: "#f5f6fa",
-          // backgroundColor: "#ffffff",
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          paddingBottom: "2rem"
-        }}
-      >
+      <div>
         <div
-          className="container"
+          className="indigo valign-wrapper"
+          style={{ width: "100%", height: "5rem" }}
+        >
+          <img
+            src="https://i.imgur.com/uapthBf.png"
+            style={{
+              width: "13.43rem",
+              height: "4rem",
+              margin: "auto auto"
+            }}
+          />
+        </div>
+        <div
           style={{
+            // backgroundColor: "#f5f6fa",
+            height: "100%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignContent: "center"
+            paddingBottom: "2rem"
           }}
+          className="container"
         >
           <NewsCard
             news={this.props.news}
             author={this.props.author}
             submitNews={this.props.submitNews}
+            date={this.props.newsDate}
           />
           <div className="divider" />
           <br />
