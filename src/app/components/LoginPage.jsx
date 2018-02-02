@@ -28,7 +28,7 @@ export class LoginPage extends React.Component {
         <div
           className="indigo"
           style={{
-            height: "35%",
+            height: "12rem",
             display: "flex",
             justifyContent: "center",
             alignContent: "center"
