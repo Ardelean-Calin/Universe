@@ -23,7 +23,7 @@ export class NewsCard extends React.Component {
     return (
       <div>
         {this.state.editMode ? (
-          <div>
+          <div className="card-panel white">
             <div className="input-field">
               <textarea
                 id="editNews"
