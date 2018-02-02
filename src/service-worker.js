@@ -1,39 +1,39 @@
-// Save resources in cache
-self.addEventListener("install", function(event) {
-  event.waitUntil(
-    caches.open("calin-cache-v0").then(function(cache) {
-      return cache.addAll(["index.html", "bundle.js", "styles.css"]);
+var CACHE = "calin-cache-v6";
+
+self.addEventListener("install", function(evt) {
+  console.log("The service worker is being installed.");
+  evt.waitUntil(precache());
+});
+
+self.addEventListener("fetch", function(evt) {
+  console.log("The service worker is serving the asset.");
+  evt.respondWith(
+    fromNetwork(evt.request, 400).catch(function() {
+      return fromCache(evt.request);
     })
   );
 });
 
-// Fetch resources from cache if there are any saved.
-// TODO: Also add on-the-go caching for those ugly image files
-//       or find a solution to cache them at install.
-self.addEventListener("fetch", function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
-});
+function precache() {
+  return caches.open(CACHE).then(function(cache) {
+    return cache.addAll(["index.html", "bundle.js", "styles.css"]);
+  });
+}
 
-self.addEventListener("activate", function(event) {
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames
-          .filter(function(cacheName) {
-            if (cacheName == "my-cache") {
-              return true;
-            } else {
-              return false;
-            }
-          })
-          .map(function(cacheName) {
-            return caches.delete(cacheName);
-          })
-      );
-    })
-  );
-});
+function fromNetwork(request, timeout) {
+  return new Promise(function(fulfill, reject) {
+    var timeoutId = setTimeout(reject, timeout);
+    fetch(request).then(function(response) {
+      clearTimeout(timeoutId);
+      fulfill(response);
+    }, reject);
+  });
+}
+
+function fromCache(request) {
+  return caches.open(CACHE).then(function(cache) {
+    return cache.match(request).then(function(matching) {
+      return matching || Promise.reject("no-match");
+    });
+  });
+}
