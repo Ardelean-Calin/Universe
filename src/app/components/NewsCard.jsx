@@ -60,19 +60,47 @@ export class NewsCard extends React.Component {
             <div className="card-panel white">
               <h5>Ultima noutate </h5>
               <div className="divider" />
-              <blockquote className="flow-text">{this.props.news}</blockquote>
-              <div
-                className="right-align flow-text"
-                style={{ marginTop: "1rem" }}
-              >
-                <strong>{this.props.author}</strong>
-              </div>
-              <div className="right-align" style={{ marginBottom: "0.5rem" }}>
-                {new Date(this.props.date).toLocaleTimeString(
-                  "en-US",
-                  dateOptions
-                )}
-              </div>
+              {this.props.news != null ? (
+                <div>
+                  <blockquote className="flow-text">
+                    {this.props.news}
+                  </blockquote>
+                  <div
+                    className="right-align flow-text"
+                    style={{ marginTop: "1rem" }}
+                  >
+                    <strong>{this.props.author}</strong>
+                  </div>
+                  <div
+                    className="right-align"
+                    style={{ marginBottom: "0.5rem" }}
+                  >
+                    {new Date(this.props.date).toLocaleTimeString(
+                      "en-GB",
+                      dateOptions
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="center-align"
+                  style={{ marginTop: "3rem", marginBottom: "1rem" }}
+                >
+                  <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle" />
+                      </div>
+                      <div class="gap-patch">
+                        <div class="circle" />
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

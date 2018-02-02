@@ -95,7 +95,7 @@ class App extends React.Component {
       authed: firebase.auth().currentUser === null ? false : true, // If user is authenticated, I start as authed
       userID: null,
       author: null,
-      newsText: "",
+      newsText: null,
       newsAuthor: "",
       newsDate: new Date(),
       subjects: {},
