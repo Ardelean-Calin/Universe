@@ -20,7 +20,6 @@ import animateCSS from "./animate.css";
 // Components
 import { SubjectPage } from "./components/SubjectPage";
 import { SubjectList } from "./components/SubjectList";
-import { ThankYou } from "./components/ThankYou";
 import { LandingPage } from "./components/LandingPage";
 import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
@@ -246,24 +245,25 @@ class App extends React.Component {
             exact
             path="/subject/:id"
             authed={this.state.authed}
-            render={({ match }) => (
+            render={props => (
               <SubjectPage
-                subjectID={match.params.id}
-                imageURL={this.state.subjects[match.params.id].imageURL}
+                {...props}
+                subjectID={props.match.params.id}
+                imageURL={this.state.subjects[props.match.params.id].imageURL}
                 submitReview={this.submitReview}
                 courses={this.filterBySubject(
                   this.state.courses,
-                  match.params.id
+                  props.match.params.id
                 )}
                 laboratories={this.filterBySubject(
                   this.state.laboratories,
-                  match.params.id
+                  props.match.params.id
                 )}
                 courseQuestions={Object.values(this.state.courseQuestions)}
                 laboratoryQuestions={Object.values(
                   this.state.laboratoryQuestions
                 )}
-                subject={this.state.subjects[match.params.id]}
+                subject={this.state.subjects[props.match.params.id]}
               />
             )}
           />
@@ -323,7 +323,7 @@ class App extends React.Component {
       .set({
         author: this.state.author || "Anonymous",
         text: content,
-        date: new Date().toLocaleString()
+        date: new Date().toUTCString()
       });
   }
 }

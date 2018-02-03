@@ -32,7 +32,7 @@ export class NewsCard extends React.Component {
                 value={this.state.editText}
                 onChange={e => this.setState({ editText: e.target.value })}
               />
-              <label htmlFor="editNews">Edit message</label>
+              <label htmlFor="editNews">Introduceti un mesaj nou</label>
             </div>
             <div style={{ display: "flex", justifyContent: "space-around" }}>
               <button className="btn" onClick={this.submitNews}>
@@ -55,7 +55,7 @@ export class NewsCard extends React.Component {
               onClick={() => this.setState({ editMode: true })}
               className="btn-floating waves-effect waves-light indigo"
             >
-              <i className="material-icons">edit</i>
+              <i className="material-icons">comment</i>
             </button>
             <div className="card-panel white">
               <h5>Ultima noutate </h5>

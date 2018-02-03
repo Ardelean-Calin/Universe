@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { Element, scroller } from "react-scroll";
-
 import RatingStar from "./RatingStar";
-import ThankYou from "./ThankYou";
 import SubjectCollapsible from "./SubjectCollapsible";
 
 export class SubjectPage extends React.Component {
@@ -20,8 +17,15 @@ export class SubjectPage extends React.Component {
           <span className="card-title flow-text">
             {this.props.subject.title}
           </span>
-          <a className="btn-floating halfway-fab indigo">
-            <i className="material-icons">format_align_justify</i>
+          <a
+            className="btn-floating halfway-fab waves-effect waves-light indigo"
+            onClick={() =>
+              setTimeout(() => {
+                this.props.history.push("/subjects");
+              }, 200)
+            }
+          >
+            <i className="material-icons">view_agenda</i>
           </a>
         </div>
         <div className="card-content">
