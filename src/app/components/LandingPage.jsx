@@ -11,19 +11,6 @@ export class LandingPage extends React.Component {
     return (
       <div>
         <div
-          className="indigo valign-wrapper"
-          style={{ width: "100%", height: "5rem" }}
-        >
-          <img
-            src="https://i.imgur.com/uapthBf.png"
-            style={{
-              width: "13.43rem",
-              height: "4rem",
-              margin: "auto auto"
-            }}
-          />
-        </div>
-        <div
           style={{
             // backgroundColor: "#f5f6fa",
             height: "100%",
@@ -41,7 +28,6 @@ export class LandingPage extends React.Component {
             date={this.props.newsDate}
           />
           <div className="divider" />
-          <br />
           <div
             style={{
               display: "flex",
@@ -55,11 +41,15 @@ export class LandingPage extends React.Component {
                 onClick={() =>
                   setTimeout(() => this.props.history.push("/subjects"), 200)
                 }
-                style={{ width: "15rem" }}
+                style={{
+                  width: "15rem",
+                  marginBottom: "0.5rem",
+                  marginTop: "0.5rem"
+                }}
                 className="btn-large waves-effect white black-text"
               >
                 <i className="material-icons large left">library_books</i>
-                Lectures
+                Discipline
                 <span
                   className="new badge right indigo"
                   data-badge-caption=""
@@ -73,19 +63,23 @@ export class LandingPage extends React.Component {
                   2
                 </span>
               </button>
-
-              <br />
-              <br />
               <button
                 // onClick={() =>
                 //   setTimeout(() => this.props.history.push("/schedule"), 200)
                 // }
-                style={{ width: "15rem" }}
+                style={{
+                  width: "15rem",
+                  marginBottom: "0.5rem",
+                  marginTop: "0.5rem"
+                }}
                 className="btn-large waves-effect white black-text"
               >
                 <i className="material-icons large left">date_range</i>
-                Schedule
+                Orar
               </button>
+              {/* <div className="divider" /> */}
+              {/* <p>Urmeaza: </p> */}
+              {/* <span className="new badge" data-badge-caption="6h" /> */}
             </div>
           </div>
         </div>

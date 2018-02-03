@@ -3,15 +3,16 @@ import ReactDOM from "react-dom";
 
 import RatingStar from "./RatingStar";
 import SubjectCollapsible from "./SubjectCollapsible";
+import { withRouter } from "react-router";
 
-export class SubjectPage extends React.Component {
+class SubjectPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className="card z-depth-0">
+      <div className="card z-depth-0" style={{ marginTop: "0" }}>
         <div className="card-image">
           <img src={this.props.subject.imageURL} className="responsive-img" />
           <span className="card-title flow-text">
@@ -21,7 +22,7 @@ export class SubjectPage extends React.Component {
             className="btn-floating halfway-fab waves-effect waves-light indigo"
             onClick={() =>
               setTimeout(() => {
-                this.props.history.push("/subjects");
+                this.props.history.goBack();
               }, 200)
             }
           >
@@ -29,6 +30,10 @@ export class SubjectPage extends React.Component {
           </a>
         </div>
         <div className="card-content">
+          {/* <p className="flow-text left-align">
+            <strong>Urmatorul curs:</strong>
+          </p>
+          <br /> */}
           <div>
             <p>{this.props.subject.description}</p>
           </div>
@@ -62,3 +67,5 @@ export class SubjectPage extends React.Component {
     );
   }
 }
+
+export default withRouter(SubjectPage);

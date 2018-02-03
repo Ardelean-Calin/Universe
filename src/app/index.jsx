@@ -1,13 +1,7 @@
 // React
 import React from "react";
 import { render } from "react-dom";
-import {
-  HashRouter,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 // Firebase stuff
 import firebase from "firebase";
@@ -18,11 +12,12 @@ import materialIcons from "./fontstyle.css";
 import animateCSS from "./animate.css";
 
 // Components
-import { SubjectPage } from "./components/SubjectPage";
+import SubjectPage from "./components/SubjectPage";
 import { SubjectList } from "./components/SubjectList";
 import { LandingPage } from "./components/LandingPage";
 import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
+import Navbar from "./components/Navbar";
 
 const config = {
   apiKey: "AIzaSyDN6i-0wR7M-B6KYmY3S8dJqy8d65Tp9qk",
@@ -93,7 +88,8 @@ class App extends React.Component {
     this.state = {
       authed: firebase.auth().currentUser === null ? false : true, // If user is authenticated, I start as authed
       userID: null,
-      author: null,
+      displayName: null,
+      email: null,
       newsText: null,
       newsAuthor: "",
       newsDate: new Date(),
@@ -113,7 +109,8 @@ class App extends React.Component {
         this.setState({
           authed: true,
           userID: user.uid,
-          author: user.displayName
+          displayName: user.displayName || "Anonymous",
+          email: user.email
         });
         console.log(user);
 
@@ -192,7 +189,7 @@ class App extends React.Component {
         });
       });
 
-    // Update news article
+    // Update FNa article
     firebase
       .database()
       .ref("news/")
@@ -208,6 +205,14 @@ class App extends React.Component {
   render() {
     return (
       <div style={{ height: "100%" }}>
+        {this.state.authed ? (
+          <Navbar
+            displayName={this.state.displayName}
+            email={this.state.email}
+          />
+        ) : (
+          ""
+        )}
         <Switch>
           <PrivateRoute
             exact
@@ -247,7 +252,6 @@ class App extends React.Component {
             authed={this.state.authed}
             render={props => (
               <SubjectPage
-                {...props}
                 subjectID={props.match.params.id}
                 imageURL={this.state.subjects[props.match.params.id].imageURL}
                 submitReview={this.submitReview}
@@ -321,7 +325,7 @@ class App extends React.Component {
       .database()
       .ref("news/")
       .set({
-        author: this.state.author || "Anonymous",
+        author: this.state.displayName,
         text: content,
         date: new Date().toUTCString()
       });

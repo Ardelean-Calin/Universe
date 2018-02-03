@@ -1,4 +1,4 @@
-var CACHE = "calin-cache-v6";
+var CACHE = "calin-cache-v9";
 
 self.addEventListener("install", function(evt) {
   console.log("The service worker is being installed.");
