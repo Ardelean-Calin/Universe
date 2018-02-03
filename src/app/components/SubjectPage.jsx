@@ -19,7 +19,7 @@ class SubjectPage extends React.Component {
             {this.props.subject.title}
           </span>
           <a
-            className="btn-floating halfway-fab waves-effect waves-light indigo"
+            className="btn-floating halfway-fab waves-effect waves-light blue darken-1"
             onClick={() =>
               setTimeout(() => {
                 this.props.history.goBack();

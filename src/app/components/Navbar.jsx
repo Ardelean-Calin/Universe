@@ -4,6 +4,8 @@ import { withRouter } from "react-router";
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.signOut = this.signOut.bind(this);
   }
 
   render() {
@@ -72,15 +74,20 @@ class Navbar extends React.Component {
               <i className="material-icons">feedback</i>Raportați o problemă
             </a>
           </li>
+          <li>
+            <a className="waves-effect" onClick={this.signOut}>
+              <i className="material-icons">exit_to_app</i>Deconectați-vă
+            </a>
+          </li>
         </ul>
         <div
-          className="indigo valign-wrapper"
-          style={{ width: "100%", height: "3rem" }}
+          className="blue darken-1 valign-wrapper"
+          style={{ width: "100%", height: "4rem" }}
         >
           <a
             data-activates="slide-out"
             className="button-collapse"
-            style={{ marginTop: "0.5rem", marginLeft: "0.5rem" }}
+            style={{ marginTop: "0.5rem", marginLeft: "1rem" }}
           >
             <i className="material-icons small white-text">menu</i>
           </a>
@@ -89,7 +96,10 @@ class Navbar extends React.Component {
             style={{
               width: "8.4rem",
               height: "2.5rem",
-              margin: "auto auto"
+              marginTop: "auto",
+              marginBottom: "auto",
+              marginRight: "1rem",
+              marginLeft: "auto"
             }}
           />
         </div>
@@ -99,6 +109,11 @@ class Navbar extends React.Component {
 
   componentDidMount() {
     $(".button-collapse").sideNav();
+  }
+
+  signOut() {
+    $(".button-collapse").sideNav("hide");
+    this.props.signOut();
   }
 }
 

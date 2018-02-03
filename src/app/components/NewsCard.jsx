@@ -53,7 +53,7 @@ export class NewsCard extends React.Component {
             <button
               style={{ position: "absolute", top: "1rem", right: "1rem" }}
               onClick={() => this.setState({ editMode: true })}
-              className="btn-floating waves-effect waves-light indigo"
+              className="btn-floating waves-effect waves-light blue darken-1"
             >
               <i className="material-icons">comment</i>
             </button>
@@ -87,7 +87,7 @@ export class NewsCard extends React.Component {
                   style={{ marginTop: "3rem", marginBottom: "1rem" }}
                 >
                   <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-blue-only">
+                    <div class="spinner-layer spinner-blue darken-1-only">
                       <div class="circle-clipper left">
                         <div class="circle" />
                       </div>
@@ -114,7 +114,7 @@ export class NewsCard extends React.Component {
       return;
     }
     Materialize.toast("Anuntul a fost actualizat!", 4000);
-    this.setState({ editMode: false });
     this.props.submitNews(this.state.editText);
+    this.setState({ editMode: false, editText: "" });
   }
 }

@@ -26,7 +26,7 @@ export class LoginPage extends React.Component {
     return (
       <div className="center-align" style={{ height: "auto" }}>
         <div
-          className="indigo"
+          className="blue darken-1"
           style={{
             height: "12rem",
             display: "flex",
@@ -68,7 +68,7 @@ export class LoginPage extends React.Component {
               <label htmlFor="inputPass">Password</label>
             </div>
             <button
-              className="btn btn-primary indigo waves-effect"
+              className="btn btn-primary blue darken-1 waves-effect"
               style={{ width: "100%" }}
               onClick={this.submitLogin}
               type="button"

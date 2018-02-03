@@ -51,7 +51,7 @@ export class LandingPage extends React.Component {
                 <i className="material-icons large left">library_books</i>
                 Discipline
                 <span
-                  className="new badge right indigo"
+                  className="new badge right blue darken-1"
                   data-badge-caption=""
                   style={{
                     position: "absolute",

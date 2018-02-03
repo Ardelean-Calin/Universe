@@ -63,3 +63,4 @@ typings/
 .idea/vcs.xml
 
 dist/
+src/app/firebase-config.js

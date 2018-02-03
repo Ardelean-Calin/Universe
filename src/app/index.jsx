@@ -19,14 +19,7 @@ import { LoginPage } from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
 import Navbar from "./components/Navbar";
 
-const config = {
-  apiKey: "AIzaSyDN6i-0wR7M-B6KYmY3S8dJqy8d65Tp9qk",
-  authDomain: "university-f3ce2.firebaseapp.com",
-  databaseURL: "https://university-f3ce2.firebaseio.com",
-  projectId: "university-f3ce2",
-  storageBucket: "university-f3ce2.appspot.com",
-  messagingSenderId: "289185582138"
-};
+import { config } from "./firebase-config";
 firebase.initializeApp(config);
 
 // Push notifications
@@ -105,6 +98,9 @@ class App extends React.Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("User connected:");
+        console.log(user.displayName);
+        console.log(user.email);
         // Authentication successful
         this.setState({
           authed: true,
@@ -184,6 +180,7 @@ class App extends React.Component {
       .database()
       .ref("users/" + this.state.userID)
       .on("value", snapshot => {
+        if (snapshot.val() == null) return;
         this.setState({
           alreadyReviewed: Object.values(snapshot.val())
         });
@@ -209,6 +206,7 @@ class App extends React.Component {
           <Navbar
             displayName={this.state.displayName}
             email={this.state.email}
+            signOut={this.signOut}
           />
         ) : (
           ""
@@ -329,6 +327,10 @@ class App extends React.Component {
         text: content,
         date: new Date().toUTCString()
       });
+  }
+
+  signOut() {
+    firebase.auth().signOut();
   }
 }
 

@@ -14,22 +14,6 @@ export class SignupPage extends React.Component {
       errorMessage: ""
     };
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        user.updateProfile({
-          displayName: this.state.displayName
-          //  Does not work this way. Consider using Identicon.js in the future
-          // photoURL: `https://github.com/identicons/${this.displayName.replace(
-          //   " ",
-          //   ""
-          // )}.png`
-        });
-        console.log(user);
-        console.log(this.state.displayName);
-        this.setState({ showError: false });
-      }
-    });
-
     this.submitSignup = this.submitSignup.bind(this);
   }
 
@@ -37,7 +21,7 @@ export class SignupPage extends React.Component {
     return (
       <div className="center-align" style={{ height: "100%" }}>
         <div
-          className="indigo"
+          className="blue darken-1"
           style={{
             height: "12rem",
             display: "flex",
@@ -102,7 +86,7 @@ export class SignupPage extends React.Component {
             </div>
             <div>
               <button
-                className="btn indigo"
+                className="btn blue darken-1"
                 style={{ width: "100%" }}
                 onClick={this.submitSignup}
                 type="button"
@@ -141,6 +125,15 @@ export class SignupPage extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.pass1)
       .then(() => {
+        user.updateProfile({
+          displayName: this.state.displayName
+          //  Does not work this way. Consider using Identicon.js in the future
+          // photoURL: `https://github.com/identicons/${this.displayName.replace(
+          //   " ",
+          //   ""
+          // )}.png`
+        });
+        this.setState({ showError: false });
         this.props.history.push("/");
       })
       .catch(err => {
