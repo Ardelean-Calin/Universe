@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import firebase from "firebase";
 
-export class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,15 +97,18 @@ export class LoginPage extends React.Component {
     let email = this.state.email;
     let password = this.state.password;
 
+    // Get the user to the loading page.
+    this.props.history.push("/");
+    // This is done by putting the authed state of index.jsx to null
+    this.props.loadingLogin();
+
     let promise = firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log("Successfully logged in!");
-        this.props.history.push("/");
-      })
       .catch(err => {
         this.setState({ showError: true, errorMessage: err.message });
       });
   }
 }
+
+export default withRouter(LoginPage);

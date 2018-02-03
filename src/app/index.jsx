@@ -15,11 +15,12 @@ import animateCSS from "./animate.css";
 import SubjectPage from "./components/SubjectPage";
 import { SubjectList } from "./components/SubjectList";
 import { LandingPage } from "./components/LandingPage";
-import { LoginPage } from "./components/LoginPage";
+import LoginPage from "./components/LoginPage";
 import { SignupPage } from "./components/SignupPage";
 import Navbar from "./components/Navbar";
 
 import { config } from "./firebase-config";
+import LoadingPage from "./components/LoadingPage";
 firebase.initializeApp(config);
 
 // Push notifications
@@ -58,7 +59,11 @@ function PrivateRoute(props) {
       render={
         // If I am authed, I return the render function given as props. Otherwise
         // I render a redirect.
-        props.authed === true ? props.render : () => <LoginPage />
+        props.authed === null
+          ? () => <LoadingPage />
+          : props.authed === true
+            ? props.render
+            : () => <LoginPage loadingLogin={props.loadingLogin} />
       }
     />
   );
@@ -79,7 +84,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      authed: firebase.auth().currentUser === null ? false : true, // If user is authenticated, I start as authed
+      authed: null,
       userID: null,
       displayName: null,
       email: null,
@@ -123,6 +128,7 @@ class App extends React.Component {
     this.loadDataFromDatabase = this.loadDataFromDatabase.bind(this);
     this.submitReview = this.submitReview.bind(this);
     this.submitNews = this.submitNews.bind(this);
+    this.loadingLogin = this.loadingLogin.bind(this);
   }
 
   loadDataFromDatabase() {
@@ -216,6 +222,7 @@ class App extends React.Component {
             exact
             path="/"
             authed={this.state.authed}
+            loadingLogin={this.loadingLogin}
             render={props => (
               <LandingPage
                 {...props}
@@ -331,6 +338,12 @@ class App extends React.Component {
 
   signOut() {
     firebase.auth().signOut();
+  }
+
+  loadingLogin() {
+    this.setState({
+      authed: null
+    });
   }
 }
 

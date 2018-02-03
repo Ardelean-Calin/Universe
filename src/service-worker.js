@@ -1,4 +1,4 @@
-var CACHE = "calin-cache-v9";
+var CACHE = "bosch-cache";
 
 self.addEventListener("install", function(evt) {
   console.log("The service worker is being installed.");
@@ -8,7 +8,7 @@ self.addEventListener("install", function(evt) {
 self.addEventListener("fetch", function(evt) {
   console.log("The service worker is serving the asset.");
   evt.respondWith(
-    fromNetwork(evt.request, 400).catch(function() {
+    fromNetwork(evt.request, 3000).catch(function() {
       return fromCache(evt.request);
     })
   );
