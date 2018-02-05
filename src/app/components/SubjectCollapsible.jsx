@@ -10,8 +10,6 @@ export default class SubjectCollapsible extends React.Component {
 
     this.currentCourse = null;
 
-    this.getDateString = this.getDateString.bind(this);
-    this.getTimeString = this.getTimeString.bind(this);
     this.submitReview = this.submitReview.bind(this);
     this.loadModal = this.loadModal.bind(this);
   }
@@ -37,22 +35,31 @@ export default class SubjectCollapsible extends React.Component {
   }
 
   render() {
+    let timeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true
+    };
+    let dateOptions = {
+      year: "2-digit",
+      month: "short",
+      day: "numeric"
+    };
+
     if (this.props.courses.length > 0)
       return (
         <div>
           <ul className="collapsible" data-collapsible="accordion">
             {this.props.courses.map(([key, value], index) => (
-              <li data-id={key}>
+              <li>
                 <div className="collapsible-header flow-text">
-                  {this.props.prefix == "Cursul" ? (
-                    <i className="material-icons">import_contacts</i>
-                  ) : (
-                    <i className="material-icons">build</i>
-                  )}
-                  {this.props.prefix} {value.index}
+                  <i className="material-icons">{this.props.icon}</i>
+                  {value.shortTitle}
                   <span
                     class="new badge"
-                    data-badge-caption={this.getDateString(value.date, true)}
+                    data-badge-caption={new Date(
+                      value.dateStart
+                    ).toLocaleDateString("en-GB", dateOptions)}
                   />
                 </div>
                 <div
@@ -60,18 +67,23 @@ export default class SubjectCollapsible extends React.Component {
                   style={{ padding: "1rem", background: "#FAFAFA" }}
                 >
                   <div>
-                    <h5>{value.title}</h5>
-                    <p className="flow-text">{value.subtitle}</p>
+                    <h5>{value.longTitle}</h5>
                     <p className="flow-text">
-                      <strong>Data: </strong>
-                      <span style={{ marginLeft: "0.5rem" }}>
-                        {this.getDateString(value.date)}
+                      <strong>Început: </strong>
+                      <span style={{ marginLeft: "0rem" }}>
+                        {new Date(value.dateStart).toLocaleTimeString(
+                          "en-US",
+                          timeOptions
+                        )}
                       </span>
                     </p>
                     <p className="flow-text">
-                      <strong>Ora: </strong>
-                      <span style={{ marginLeft: "1.1rem" }}>
-                        {this.getTimeString(value.date)}
+                      <strong>Sfârșit: </strong>
+                      <span style={{ marginLeft: "0.5rem" }}>
+                        {new Date(value.dateEnd).toLocaleTimeString(
+                          "en-US",
+                          timeOptions
+                        )}
                       </span>
                     </p>
                     <div
@@ -81,6 +93,7 @@ export default class SubjectCollapsible extends React.Component {
                     <QuestionsPage
                       questions={this.props.questions}
                       onSubmit={this.loadModal}
+                      id={key}
                     />
                   </div>
                 </div>
@@ -120,35 +133,26 @@ export default class SubjectCollapsible extends React.Component {
   }
 
   componentDidMount() {
-    $(".collapsible").collapsible({
-      onOpen: el => {
-        currentCourse = el[0].getAttribute("data-id");
-      }
-    });
-
-    $(".modal").modal();
+    $(".collapsible").collapsible();
+    $(this.modal).modal();
   }
 
   componentDidUpdate() {
-    $(".collapsible").collapsible({
-      onOpen: el => {
-        currentCourse = el[0].getAttribute("data-id");
-      }
-    });
-
-    $(".modal").modal();
+    $(".collapsible").collapsible();
+    $(this.modal).modal();
   }
 
-  loadModal(answers, additionalComment) {
+  loadModal(id, answers, additionalComment) {
+    this.currentCourse = id;
     this.answers = answers;
     this.additionalComment = additionalComment;
     $(this.modal).modal("open");
   }
 
   submitReview() {
-    // $(".collapsible").collapsible("close", 0);
+    $(".collapsible").collapsible("close", 0);
     this.props.submitReview(
-      currentCourse,
+      this.currentCourse,
       this.answers,
       this.additionalComment
     );

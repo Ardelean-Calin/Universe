@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { Badge } from "./Badge";
 
 class HorizontalCard extends React.Component {
   constructor(props) {
@@ -27,17 +28,7 @@ class HorizontalCard extends React.Component {
             </p>
             <p>{this.props.subtitle}</p>
           </div>
-          {this.props.notifications ? (
-            <span
-              style={{ position: "absolute", top: "5px", right: "5px" }}
-              class="new badge blue darken-1"
-              data-badge-caption={`${this.props.notifications} ${
-                this.props.notifications == 1 ? " nou" : " noi"
-              }`}
-            />
-          ) : (
-            ""
-          )}
+          <Badge noNotifications={this.props.notifications} topRight />
         </div>
       </div>
     );

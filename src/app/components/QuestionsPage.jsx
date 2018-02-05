@@ -83,6 +83,10 @@ export class QuestionsPage extends React.Component {
   }
 
   submitReview() {
-    this.props.onSubmit(this.answers, this.state.additionalComment);
+    this.props.onSubmit(
+      this.props.id,
+      this.answers,
+      this.state.additionalComment
+    );
   }
 }

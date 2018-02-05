@@ -1,6 +1,6 @@
 import React from "react";
-import HorizontalCard from "./HorizontalCard";
 import { NewsCard } from "./NewsCard";
+import { Badge } from "./Badge";
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -50,18 +50,7 @@ export class LandingPage extends React.Component {
               >
                 <i className="material-icons large left">library_books</i>
                 Discipline
-                <span
-                  className="new badge right blue darken-1"
-                  data-badge-caption=""
-                  style={{
-                    position: "absolute",
-                    top: "0.1rem",
-                    right: "0.1rem",
-                    minWidth: "2rem"
-                  }}
-                >
-                  2
-                </span>
+                <Badge noNotifications={this.props.numToReview} topRight />
               </button>
               <button
                 // onClick={() =>

@@ -25,6 +25,8 @@ export class NewsCard extends React.Component {
       <div>
         {this.state.editMode ? (
           <div className="card-panel white">
+            <h5>Modifică mesajul</h5>
+            <div className="divider" />
             <div className="input-field">
               <textarea
                 id="editNews"
@@ -33,7 +35,7 @@ export class NewsCard extends React.Component {
                 value={this.state.editText}
                 onChange={e => this.setState({ editText: e.target.value })}
               />
-              <label htmlFor="editNews">Introduceti un mesaj nou</label>
+              <label htmlFor="editNews">Introduceți un mesaj nou</label>
             </div>
             <div style={{ display: "flex", justifyContent: "space-around" }}>
               <button className="btn" onClick={this.submitNews}>

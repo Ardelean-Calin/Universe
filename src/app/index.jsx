@@ -42,7 +42,7 @@ function requestNotificationPermission(userID) {
       console.log("Sending token to server: ", token);
       firebase
         .database()
-        .ref("notificationTokens/" + userID)
+        .ref(`users/${userID}/notificationToken`)
         .set(token);
     })
     .catch(err => {
@@ -94,8 +94,11 @@ class App extends React.Component {
       subjects: {},
       courses: {},
       laboratories: {},
+      seminaries: {},
       courseQuestions: {},
       laboratoryQuestions: {},
+      seminaryQuestions: {},
+      toReview: {},
       alreadyReviewed: []
     };
 
@@ -103,17 +106,18 @@ class App extends React.Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("User connected:");
-        console.log(user.displayName);
-        console.log(user.email);
         // Authentication successful
         this.setState({
           authed: true,
           userID: user.uid,
-          displayName: user.displayName || "Anonymous",
           email: user.email
         });
-        console.log(user);
+
+        if (user.displayName != null) {
+          this.setState({
+            displayName: user.displayName
+          });
+        }
 
         this.loadDataFromDatabase();
         requestNotificationPermission(user.uid);
@@ -129,36 +133,17 @@ class App extends React.Component {
     this.submitReview = this.submitReview.bind(this);
     this.submitNews = this.submitNews.bind(this);
     this.loadingLogin = this.loadingLogin.bind(this);
+    this.updateDisplayName = this.updateDisplayName.bind(this);
   }
 
   loadDataFromDatabase() {
     firebase
       .database()
-      .ref("subjects/")
+      .ref("discipline/")
       .once("value")
       .then(snapshot => {
         this.setState({
           subjects: snapshot.val()
-        });
-      });
-
-    firebase
-      .database()
-      .ref("courses/")
-      .once("value")
-      .then(snapshot => {
-        this.setState({
-          courses: snapshot.val()
-        });
-      });
-
-    firebase
-      .database()
-      .ref("laboratories/")
-      .once("value")
-      .then(snapshot => {
-        this.setState({
-          laboratories: snapshot.val()
         });
       });
 
@@ -184,11 +169,21 @@ class App extends React.Component {
 
     firebase
       .database()
+      .ref("questionsSeminary/")
+      .once("value")
+      .then(snapshot => {
+        this.setState({
+          seminaryQuestions: snapshot.val()
+        });
+      });
+
+    firebase
+      .database()
       .ref("users/" + this.state.userID)
       .on("value", snapshot => {
         if (snapshot.val() == null) return;
         this.setState({
-          alreadyReviewed: Object.values(snapshot.val())
+          toReview: snapshot.val().toReview
         });
       });
 
@@ -213,6 +208,11 @@ class App extends React.Component {
             displayName={this.state.displayName}
             email={this.state.email}
             signOut={this.signOut}
+            noNotifications={
+              Object.entries(this.state.toReview).filter(([key, val]) => {
+                return val == true;
+              }).length
+            }
           />
         ) : (
           ""
@@ -230,6 +230,11 @@ class App extends React.Component {
                 author={this.state.newsAuthor}
                 news={this.state.newsText}
                 newsDate={this.state.newsDate}
+                numToReview={
+                  Object.entries(this.state.toReview).filter(([key, val]) => {
+                    return val == true;
+                  }).length
+                }
               />
             )}
           />
@@ -237,7 +242,12 @@ class App extends React.Component {
             exact
             path="/signup"
             authed={this.state.authed}
-            component={SignupPage}
+            render={props => (
+              <SignupPage
+                {...props}
+                updateDisplayName={this.updateDisplayName}
+              />
+            )}
           />
           <Route
             exact
@@ -249,7 +259,12 @@ class App extends React.Component {
             exact
             path="/subjects"
             authed={this.state.authed}
-            render={props => <SubjectList subjects={this.state.subjects} />}
+            render={props => (
+              <SubjectList
+                subjects={this.state.subjects}
+                toReview={this.state.toReview}
+              />
+            )}
           />
           <PrivateRoute
             exact
@@ -259,20 +274,14 @@ class App extends React.Component {
               <SubjectPage
                 subjectID={props.match.params.id}
                 imageURL={this.state.subjects[props.match.params.id].imageURL}
-                submitReview={this.submitReview}
-                courses={this.filterBySubject(
-                  this.state.courses,
-                  props.match.params.id
-                )}
-                laboratories={this.filterBySubject(
-                  this.state.laboratories,
-                  props.match.params.id
-                )}
                 courseQuestions={Object.values(this.state.courseQuestions)}
                 laboratoryQuestions={Object.values(
                   this.state.laboratoryQuestions
                 )}
+                seminaryQuestions={Object.values(this.state.seminaryQuestions)}
                 subject={this.state.subjects[props.match.params.id]}
+                toReview={this.state.toReview}
+                submitReview={this.submitReview}
               />
             )}
           />
@@ -281,45 +290,26 @@ class App extends React.Component {
     );
   }
 
-  // Filters courses based on subject ID
-  filterBySubject(toBeFiltered, subjectID) {
-    let currentDate = new Date();
-    let filtered = Object.entries(toBeFiltered).filter(
-      ([key, val]) =>
-        val.subjectID == subjectID &&
-        this.state.alreadyReviewed.includes(key) == false &&
-        currentDate.getTime() > new Date(val.date).getTime()
-    );
-
-    this.notifications[subjectID] = filtered.length;
-    // this.setState({
-    //   notifications: { ...notifications }
-    // });
-
-    console.log(this.notifications);
-    return filtered;
-  }
-
-  componentDidMount() {}
-
-  componentWillUnmount() {
-    // firebase.auth().signOut();
-  }
-
-  submitReview(index, answers, additionalComment) {
+  submitReview(id, answers, additionalComment) {
+    // id is the id of the laboratory/question
     firebase
       .database()
-      .ref("answers/" + index + "/" + this.state.userID)
+      .ref("answers/" + id)
+      .push()
       .set({
         ...answers,
         additionalComment: additionalComment
       });
 
+    let temp = {};
+    temp[id] = false;
+
     firebase
       .database()
-      .ref("users/" + this.state.userID)
-      .push()
-      .set(index)
+      .ref("users/" + this.state.userID + "/toReview")
+      .update({
+        ...temp
+      })
       .then(() => {
         Materialize.toast("Recenzia a fost trimisa!", 4000);
       });
@@ -334,6 +324,15 @@ class App extends React.Component {
         text: content,
         date: new Date().toUTCString()
       });
+  }
+
+  updateDisplayName(user, displayName) {
+    user.updateProfile({
+      displayName: displayName
+    });
+    this.setState({
+      displayName: displayName
+    });
   }
 
   signOut() {

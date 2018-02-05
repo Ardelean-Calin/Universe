@@ -124,15 +124,8 @@ export class SignupPage extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.pass1)
-      .then(() => {
-        user.updateProfile({
-          displayName: this.state.displayName
-          //  Does not work this way. Consider using Identicon.js in the future
-          // photoURL: `https://github.com/identicons/${this.displayName.replace(
-          //   " ",
-          //   ""
-          // )}.png`
-        });
+      .then(user => {
+        this.props.updateDisplayName(user, this.state.displayName);
         this.setState({ showError: false });
         this.props.history.push("/");
       })

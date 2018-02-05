@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
+import { Badge } from "./Badge";
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class Navbar extends React.Component {
               }}
             >
               <i className="material-icons">view_agenda</i>Listă discipline
+              <Badge noNotifications={this.props.noNotifications} />
             </a>
           </li>
           <li>
