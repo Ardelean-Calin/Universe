@@ -97,14 +97,15 @@ class LoginPage extends React.Component {
     let email = this.state.email;
     let password = this.state.password;
 
-    // Get the user to the loading page.
-    this.props.history.push("/");
-    // This is done by putting the authed state of index.jsx to null
-    this.props.loadingLogin();
-
     let promise = firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // Get the user to the loading page.
+        this.props.history.push("/");
+        // This is done by putting the authed state of index.jsx to null
+        this.props.loadingLogin();
+      })
       .catch(err => {
         this.setState({ showError: true, errorMessage: err.message });
       });

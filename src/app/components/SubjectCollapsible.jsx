@@ -51,7 +51,7 @@ export default class SubjectCollapsible extends React.Component {
         <div>
           <ul className="collapsible" data-collapsible="accordion">
             {this.props.courses.map(([key, value], index) => (
-              <li>
+              <li key={`${index}${this.props.courses.length}`}>
                 <div className="collapsible-header flow-text">
                   <i className="material-icons">{this.props.icon}</i>
                   {value.shortTitle}
@@ -138,6 +138,7 @@ export default class SubjectCollapsible extends React.Component {
   }
 
   componentDidUpdate() {
+    // TODO: Remove
     $(".collapsible").collapsible();
     $(this.modal).modal();
   }

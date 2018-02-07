@@ -1,64 +1,85 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import RatingStar from "./RatingStar";
+import StarQuestion from "./StarQuestion";
+import { BinaryQuestion } from "./BinaryQuestion";
 
 export class QuestionsPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      canSubmit: false,
+      answers: {},
       additionalComment: ""
     };
 
-    this.answers = {};
-
-    this.gotoQestion = this.gotoQestion.bind(this);
+    // this.gotoQestion = this.gotoQestion.bind(this);
     this.submitReview = this.submitReview.bind(this);
+    this.pushAnswer = this.pushAnswer.bind(this);
+  }
+
+  pushAnswer(id, answer) {
+    let _answers = this.state.answers;
+    _answers[id] = answer;
+    this.setState({
+      answers: _answers
+    });
   }
 
   render() {
-    this.reviewedCourses = new Array(this.props.questions.length).fill(0);
-
     return (
       <div>
-        {this.props.questions.map((question, index) => (
-          <div key={index}>
-            <RatingStar
-              ref={`question_${index}`}
-              question={question}
-              onReview={answer => {
-                this.answers[question.id] = answer;
-                this.reviewedCourses[index] = 1;
-                this.gotoQestion(
-                  index == this.props.questions.length - 1
-                    ? "buttonSubmit"
-                    : `question_${index + 1}`
+        {Object.entries(this.props.questions).map(([id, question]) =>
+          (() => {
+            switch (question.type) {
+              case "binary":
+                return (
+                  <BinaryQuestion
+                    title={question.title}
+                    detail={question.detail}
+                    onReview={answer => this.pushAnswer(id, answer)}
+                  />
                 );
-              }}
-            />
-            <br />
-          </div>
-        ))}
+              case "star":
+                return (
+                  <StarQuestion
+                    title={question.title}
+                    detail={question.detail}
+                    onReview={answer => this.pushAnswer(id, answer)}
+                  />
+                );
+              default:
+                return (
+                  <div>{`Question type: ${question.type} not supported.`}</div>
+                );
+            }
+          })()
+        )}
+        <br />
+        <div className="divider" />
         <div className="input-field">
           <textarea
             style={{ height: "5rem", maxHeight: "5rem", overflowY: "auto" }}
             maxLength="280"
-            id="textAdditionalComment"
+            ref={additionalComment =>
+              (this.additionalComment = additionalComment)
+            }
             className="materialize-textarea"
             value={this.state.additionalComment}
             onChange={e => this.setState({ additionalComment: e.target.value })}
           />
-          <label htmlFor="textAdditionalComment">
-            Comentariu aditional (280 de caractere)
-          </label>
+          <label>Comentariu aditional (280 de caractere)</label>
         </div>
         <div className="center-align">
           <button
-            ref="buttonSubmit"
+            ref={buttonSubmit => (this.buttonSubmit = buttonSubmit)}
             className="btn-flat waves-effect"
             onClick={this.submitReview}
-            disabled={!this.state.canSubmit}
+            disabled={
+              !(
+                Object.keys(this.state.answers).toString() ==
+                Object.keys(this.props.questions).toString()
+              )
+            }
           >
             Submit Review
           </button>
@@ -67,25 +88,25 @@ export class QuestionsPage extends React.Component {
     );
   }
 
-  gotoQestion(reference) {
-    let node = ReactDOM.findDOMNode(this.refs[reference]);
-    node.scrollIntoView({
-      alignToTop: false,
-      behavior: "smooth",
-      block: "center"
-    });
+  // gotoQestion(reference) {
+  //   let node = ReactDOM.findDOMNode(reference);
+  //   node.scrollIntoView({
+  //     alignToTop: false,
+  //     behavior: "smooth",
+  //     block: "center"
+  //   });
 
-    if (this.reviewedCourses.includes(0) == false) {
-      this.setState({
-        canSubmit: true
-      });
-    }
-  }
+  //   if (this.reviewedCourses.includes(0) == false) {
+  //     this.setState({
+  //       canSubmit: true
+  //     });
+  //   }
+  // }
 
   submitReview() {
     this.props.onSubmit(
       this.props.id,
-      this.answers,
+      this.state.answers,
       this.state.additionalComment
     );
   }

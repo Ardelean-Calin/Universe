@@ -136,4 +136,8 @@ export class SignupPage extends React.Component {
         });
       });
   }
+
+  componentDidMount() {
+    console.log(this.state);
+  }
 }

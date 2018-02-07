@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import RatingStar from "./RatingStar";
 import SubjectCollapsible from "./SubjectCollapsible";
 import { withRouter } from "react-router";
 
@@ -50,10 +49,7 @@ class SubjectPage extends React.Component {
           {this.filterToReview(this.props.subject.cursuri).length == 0 &&
           this.filterToReview(this.props.subject.seminarii).length == 0 &&
           this.filterToReview(this.props.subject.laboratoare).length == 0 ? (
-            <p
-              className="flow-text"
-              style={{ textAlign: "center", fontWeight: "bold" }}
-            >
+            <p className="flow-text" style={{ textAlign: "center" }}>
               Nicio recenzie disponibilă în acest moment.
             </p>
           ) : (

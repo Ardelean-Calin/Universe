@@ -274,11 +274,9 @@ class App extends React.Component {
               <SubjectPage
                 subjectID={props.match.params.id}
                 imageURL={this.state.subjects[props.match.params.id].imageURL}
-                courseQuestions={Object.values(this.state.courseQuestions)}
-                laboratoryQuestions={Object.values(
-                  this.state.laboratoryQuestions
-                )}
-                seminaryQuestions={Object.values(this.state.seminaryQuestions)}
+                courseQuestions={this.state.courseQuestions}
+                laboratoryQuestions={this.state.laboratoryQuestions}
+                seminaryQuestions={this.state.seminaryQuestions}
                 subject={this.state.subjects[props.match.params.id]}
                 toReview={this.state.toReview}
                 submitReview={this.submitReview}
@@ -316,6 +314,7 @@ class App extends React.Component {
   }
 
   submitNews(content) {
+    console.log("news:", this.state.displayName);
     firebase
       .database()
       .ref("news/")
