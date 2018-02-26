@@ -102,25 +102,23 @@ export default class SubjectCollapsible extends React.Component {
           </ul>
           <div
             className="modal modal-fixed-footer"
+            style={{ height: "20em" }}
             ref={modal => (this.modal = modal)}
           >
-            <div className="modal-content">
-              <h4>Are you sure?</h4>
-              <p>
-                Your review will be submitted and you will not be able to edit
-                it anymore.
-              </p>
+            <div className="modal-content" style={{ height: "15em" }}>
+              <h4>Ești sigur(ă)?</h4>
+              <p>Odată trimisă, recenzia nu va mai putea fi modificată.</p>
             </div>
             <div className="modal-footer">
               <div style={{ display: "inline" }}>
                 <button className="modal-action modal-close waves-effect waves-red btn-flat">
-                  No
+                  Nu
                 </button>
                 <button
                   onClick={this.submitReview}
                   className="modal-action modal-close waves-effect waves-green btn-flat"
                 >
-                  Yes, I am sure
+                  Da, sunt sigur(ă)
                 </button>
               </div>
             </div>
@@ -134,13 +132,13 @@ export default class SubjectCollapsible extends React.Component {
 
   componentDidMount() {
     $(".collapsible").collapsible();
-    $(this.modal).modal();
+    $(this.modal).modal({ startingTop: "100%", endingTop: "30%" });
   }
 
   componentDidUpdate() {
     // TODO: Remove
     $(".collapsible").collapsible();
-    $(this.modal).modal();
+    $(this.modal).modal({ startingTop: "100%", endingTop: "30%" });
   }
 
   loadModal(id, answers, additionalComment) {

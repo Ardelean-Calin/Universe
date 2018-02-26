@@ -26,7 +26,7 @@ class LoginPage extends React.Component {
     return (
       <div className="center-align" style={{ height: "auto" }}>
         <div
-          className="blue darken-1"
+          className="blue"
           style={{
             height: "12rem",
             display: "flex",
@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
           }}
         >
           <img
-            src="https://i.imgur.com/FSvbyvW.png"
+            src="https://i.imgur.com/Vsjg7PE.png"
             style={{
               width: "8rem",
               height: "8rem",
@@ -44,8 +44,7 @@ class LoginPage extends React.Component {
           />
         </div>
         <div style={{ width: "80%", margin: "auto" }}>
-          <h4 className="center-align">LOGIN</h4>
-          <div className="divider" />
+          <h4 className="center-align">Autentificare</h4>
           <form>
             <div className="input-field">
               <i className="material-icons prefix">email</i>
@@ -65,15 +64,15 @@ class LoginPage extends React.Component {
                 id="inputPass"
                 onChange={e => (this.state.password = e.target.value)}
               />
-              <label htmlFor="inputPass">Password</label>
+              <label htmlFor="inputPass">Parolă</label>
             </div>
             <button
-              className="btn btn-primary blue darken-1 waves-effect"
+              className="btn btn-primary blue waves-effect"
               style={{ width: "100%" }}
               onClick={this.submitLogin}
               type="button"
             >
-              LOG IN
+              Autentificare
             </button>
           </form>
           <br />
@@ -81,7 +80,7 @@ class LoginPage extends React.Component {
             <p style={{ color: "#e74c3c" }}>{this.state.errorMessage}</p>
           )}
           <Link to="/signup" style={{ marginBottom: "1rem" }}>
-            Don't have an account?
+            Crează-ți un cont
           </Link>
         </div>
       </div>

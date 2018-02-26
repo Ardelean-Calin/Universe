@@ -21,7 +21,7 @@ export class SignupPage extends React.Component {
     return (
       <div className="center-align" style={{ height: "100%" }}>
         <div
-          className="blue darken-1"
+          className="blue"
           style={{
             height: "12rem",
             display: "flex",
@@ -30,7 +30,7 @@ export class SignupPage extends React.Component {
           }}
         >
           <img
-            src="https://i.imgur.com/FSvbyvW.png"
+            src="https://i.imgur.com/Vsjg7PE.png"
             style={{
               width: "8rem",
               height: "8rem",
@@ -39,8 +39,7 @@ export class SignupPage extends React.Component {
           />
         </div>
         <div style={{ width: "80%", margin: "auto" }}>
-          <h4 className="center-align">REGISTER</h4>
-          <div className="divider" />
+          <h4 className="center-align">Înregistrare</h4>
           <form>
             <div className="input-field">
               <i className="material-icons prefix">person</i>
@@ -50,7 +49,7 @@ export class SignupPage extends React.Component {
                 className="validate"
                 onChange={e => (this.state.displayName = e.target.value)}
               />
-              <label htmlFor="inputName">Full Name</label>
+              <label htmlFor="inputName">Nume și prenume</label>
             </div>
             <div className="input-field">
               <i className="material-icons prefix">email</i>
@@ -71,27 +70,16 @@ export class SignupPage extends React.Component {
                 onChange={e => (this.state.pass1 = e.srcElement.value)}
                 data-error="Passwords do not match"
               />
-              <label htmlFor="inputPass">Password</label>
-            </div>
-            <div className="input-field">
-              <i className="material-icons prefix">lock</i>
-              <input
-                id="inputPass2"
-                type="password"
-                className="validate"
-                onChange={e => (this.state.pass2 = e.target.value)}
-                data-error="Passwords do not match"
-              />
-              <label htmlFor="inputPass2">Repeat Password</label>
+              <label htmlFor="inputPass">Parolă</label>
             </div>
             <div>
               <button
-                className="btn blue darken-1"
+                className="btn blue"
                 style={{ width: "100%" }}
                 onClick={this.submitSignup}
                 type="button"
               >
-                REGISTER
+                Înregistrează-te
               </button>
             </div>
           </form>
@@ -135,9 +123,5 @@ export class SignupPage extends React.Component {
           errorMessage: err.message
         });
       });
-  }
-
-  componentDidMount() {
-    console.log(this.state);
   }
 }

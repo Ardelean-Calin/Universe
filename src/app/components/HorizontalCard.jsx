@@ -23,10 +23,12 @@ class HorizontalCard extends React.Component {
         </div>
         <div className="card-stacked">
           <div className="card-content">
-            <p className="flow-text">
+            <p style={{ fontWeight: "bold" }}>
               <strong>{this.props.title}</strong>
             </p>
-            <p>{this.props.subtitle}</p>
+            <p style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: "0.9em" }}>
+              {this.props.subtitle}
+            </p>
           </div>
           <Badge noNotifications={this.props.notifications} topRight />
         </div>

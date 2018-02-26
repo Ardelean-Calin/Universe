@@ -9,7 +9,14 @@ export class LandingPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          position: "absolute",
+          top: "4rem",
+          margin: "0 auto",
+          width: "100%"
+        }}
+      >
         <div
           style={{
             // backgroundColor: "#f5f6fa",
@@ -27,7 +34,6 @@ export class LandingPage extends React.Component {
             submitNews={this.props.submitNews}
             date={this.props.newsDate}
           />
-          <div className="divider" />
           <div
             style={{
               display: "flex",
@@ -52,10 +58,9 @@ export class LandingPage extends React.Component {
                 Discipline
                 <Badge noNotifications={this.props.numToReview} topRight />
               </button>
-              <button
-                // onClick={() =>
-                //   setTimeout(() => this.props.history.push("/schedule"), 200)
-                // }
+              <br />
+              <a
+                href="https://ie.utcluj.ro/files/orar/ORAR_FIE_2017-18_sem2_MASTER_I.pdf"
                 style={{
                   width: "15rem",
                   marginBottom: "0.5rem",
@@ -65,10 +70,7 @@ export class LandingPage extends React.Component {
               >
                 <i className="material-icons large left">date_range</i>
                 Orar
-              </button>
-              {/* <div className="divider" /> */}
-              {/* <p>Urmeaza: </p> */}
-              {/* <span className="new badge" data-badge-caption="6h" /> */}
+              </a>
             </div>
           </div>
         </div>

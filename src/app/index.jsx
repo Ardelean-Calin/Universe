@@ -8,7 +8,6 @@ import firebase from "firebase";
 
 // Stylesheets
 import materialize from "../../node_modules/materialize-css/dist/css/materialize.css";
-import materialIcons from "./fontstyle.css";
 import animateCSS from "./animate.css";
 
 // Components
@@ -51,7 +50,6 @@ function requestNotificationPermission(userID) {
 }
 
 function PrivateRoute(props) {
-  console.log("Private Route: ", props);
   return (
     <Route
       exact
@@ -192,6 +190,7 @@ class App extends React.Component {
       .database()
       .ref("news/")
       .on("value", snapshot => {
+        if (snapshot.val() == null) return;
         this.setState({
           newsAuthor: snapshot.val().author,
           newsText: snapshot.val().text,
@@ -292,8 +291,7 @@ class App extends React.Component {
     // id is the id of the laboratory/question
     firebase
       .database()
-      .ref("answers/" + id)
-      .push()
+      .ref("answers/" + id + "/" + this.state.userID)
       .set({
         ...answers,
         additionalComment: additionalComment
@@ -314,7 +312,6 @@ class App extends React.Component {
   }
 
   submitNews(content) {
-    console.log("news:", this.state.displayName);
     firebase
       .database()
       .ref("news/")

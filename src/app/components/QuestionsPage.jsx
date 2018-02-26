@@ -67,7 +67,7 @@ export class QuestionsPage extends React.Component {
             value={this.state.additionalComment}
             onChange={e => this.setState({ additionalComment: e.target.value })}
           />
-          <label>Comentariu aditional (280 de caractere)</label>
+          <label>Comentariu adițional (280 de caractere)</label>
         </div>
         <div className="center-align">
           <button
@@ -76,12 +76,16 @@ export class QuestionsPage extends React.Component {
             onClick={this.submitReview}
             disabled={
               !(
-                Object.keys(this.state.answers).toString() ==
-                Object.keys(this.props.questions).toString()
+                Object.keys(this.state.answers)
+                  .sort()
+                  .toString() ==
+                Object.keys(this.props.questions)
+                  .sort()
+                  .toString()
               )
             }
           >
-            Submit Review
+            Trimite recenzia
           </button>
         </div>
       </div>

@@ -7,13 +7,13 @@ exports.Badge = props => {
         props.topRight
           ? {
               position: "absolute",
-              top: "5px",
-              right: "5px",
+              top: "1px",
+              right: "1px",
               minWidth: "2rem"
             }
           : { minWidth: "2rem" }
       }
-      class="new badge blue darken-1"
+      class="new badge green"
       data-badge-caption={props.noNotifications}
     />
   ) : (

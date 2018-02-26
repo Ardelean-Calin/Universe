@@ -19,23 +19,33 @@ class SubjectPage extends React.Component {
     return filteredItems;
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     return (
-      <div className="card z-depth-0" style={{ marginTop: "0" }}>
+      <div
+        className="card z-depth-0"
+        style={{ position: "absolute", top: "3rem" }}
+      >
         <div className="card-image">
           <img src={this.props.subject.imageURL} className="responsive-img" />
-          <span className="card-title flow-text">
+          <span
+            className="card-title flow-text"
+            style={{ background: "rgba(0, 0, 0, 0.3)", width: "100%" }}
+          >
             {this.props.subject.titlu}
           </span>
           <a
-            className="btn-floating halfway-fab waves-effect waves-light blue darken-1"
+            className="btn-floating halfway-fab waves-effect waves-light blue"
             onClick={() =>
               setTimeout(() => {
                 this.props.history.goBack();
               }, 200)
             }
           >
-            <i className="material-icons">view_agenda</i>
+            <i className="material-icons">reply</i>
           </a>
         </div>
         <div className="card-content">
@@ -46,28 +56,24 @@ class SubjectPage extends React.Component {
             style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
             className="divider"
           />
-          {this.filterToReview(this.props.subject.cursuri).length == 0 &&
-          this.filterToReview(this.props.subject.seminarii).length == 0 &&
-          this.filterToReview(this.props.subject.laboratoare).length == 0 ? (
+          {this.filterToReview(this.props.subject.cursuri || []).length == 0 &&
+          this.filterToReview(this.props.subject.laboratoare || []).length ==
+            0 ? (
             <p className="flow-text" style={{ textAlign: "center" }}>
               Nicio recenzie disponibilă în acest moment.
             </p>
           ) : (
             <div>
               <SubjectCollapsible
-                courses={this.filterToReview(this.props.subject.cursuri)}
+                courses={this.filterToReview(this.props.subject.cursuri || [])}
                 questions={this.props.courseQuestions}
                 submitReview={this.props.submitReview}
                 icon="import_contacts"
               />
               <SubjectCollapsible
-                courses={this.filterToReview(this.props.subject.seminarii)}
-                questions={this.props.seminaryQuestions}
-                submitReview={this.props.submitReview}
-                icon="functions"
-              />
-              <SubjectCollapsible
-                courses={this.filterToReview(this.props.subject.laboratoare)}
+                courses={this.filterToReview(
+                  this.props.subject.laboratoare || []
+                )}
                 questions={this.props.laboratoryQuestions}
                 submitReview={this.props.submitReview}
                 icon="build"

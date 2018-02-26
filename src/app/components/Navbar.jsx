@@ -15,12 +15,7 @@ class Navbar extends React.Component {
         <ul id="slide-out" className="side-nav">
           <li>
             <div className="user-view">
-              <div className="background">
-                <img
-                  className="resposive-img"
-                  src="https://i.imgur.com/zmlXlpS.jpg"
-                />
-              </div>
+              <div className="background blue" />
               <a>
                 <i className="circle material-icons large white-text">person</i>
               </a>
@@ -61,21 +56,22 @@ class Navbar extends React.Component {
             </a>
           </li>
           <li>
-            <a className="waves-effect">
+            <a
+              className="waves-effect"
+              href="https://ie.utcluj.ro/files/orar/ORAR_FIE_2017-18_sem2_MASTER_I.pdf"
+            >
               <i className="material-icons">date_range</i>Orar
             </a>
           </li>
-          <li>
-            <div className="divider" />
-          </li>
+          <li />
           <li>
             <a className="subheader">Alte opțiuni</a>
           </li>
-          <li>
+          {/* <li>
             <a className="waves-effect">
               <i className="material-icons">feedback</i>Raportați o problemă
             </a>
-          </li>
+          </li> */}
           <li>
             <a className="waves-effect" onClick={this.signOut}>
               <i className="material-icons">exit_to_app</i>Deconectați-vă
@@ -83,27 +79,49 @@ class Navbar extends React.Component {
           </li>
         </ul>
         <div
-          className="blue darken-1 valign-wrapper"
-          style={{ width: "100%", height: "4rem" }}
+          className="blue valign-wrapper"
+          style={{
+            width: "100%",
+            height: "4rem",
+            position: "fixed",
+            top: "0px",
+            zIndex: 7
+          }}
         >
           <a
             data-activates="slide-out"
             className="button-collapse"
-            style={{ marginTop: "0.5rem", marginLeft: "1rem" }}
+            style={{ marginLeft: "1rem" }}
           >
-            <i className="material-icons small white-text">menu</i>
+            <i
+              className="material-icons small white-text waves-effect waves-light"
+              style={{
+                borderRadius: "50%"
+              }}
+            >
+              menu
+            </i>
           </a>
-          <img
-            src="https://i.imgur.com/uapthBf.png"
+          <a
             style={{
-              width: "8.4rem",
-              height: "2.5rem",
-              marginTop: "auto",
-              marginBottom: "auto",
-              marginRight: "1rem",
-              marginLeft: "auto"
+              position: "absolute",
+              right: "1rem",
+              display:
+                this.props.history.location.pathname === "/subjects"
+                  ? ""
+                  : "none"
             }}
-          />
+            onClick={() => this.props.history.goBack()}
+          >
+            <i
+              className="material-icons small white-text waves-effect waves-light"
+              style={{
+                borderRadius: "50%"
+              }}
+            >
+              reply
+            </i>
+          </a>
         </div>
       </div>
     );

@@ -25,7 +25,7 @@ export class NewsCard extends React.Component {
       <div>
         {this.state.editMode ? (
           <div className="card-panel white">
-            <h5>Modifică mesajul</h5>
+            <h5>Modifică anunțul</h5>
             <div className="divider" />
             <div className="input-field">
               <textarea
@@ -56,12 +56,12 @@ export class NewsCard extends React.Component {
             <button
               style={{ position: "absolute", top: "1rem", right: "1rem" }}
               onClick={() => this.setState({ editMode: true })}
-              className="btn-floating waves-effect waves-light blue darken-1"
+              className="btn-floating waves-effect waves-light blue"
             >
               <i className="material-icons">comment</i>
             </button>
             <div className="card-panel white">
-              <h5>Ultima noutate </h5>
+              <h5>Anunțuri</h5>
               <div className="divider" />
               {this.props.news != null ? (
                 <div>
@@ -89,7 +89,7 @@ export class NewsCard extends React.Component {
                   className="center-align"
                   style={{ marginTop: "3rem", marginBottom: "1rem" }}
                 >
-                  <Spinner />
+                  Nici-un anunț disponibil.
                 </div>
               )}
             </div>

@@ -33,7 +33,8 @@ export class BinaryQuestion extends React.Component {
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <p>
               <input
-                type="checkbox"
+                type="radio"
+                className="with-gap"
                 checked={this.state.answer == null ? false : this.state.answer}
                 onChange={() => this.checkBox(true)}
                 id={this.id1}
@@ -42,7 +43,8 @@ export class BinaryQuestion extends React.Component {
             </p>
             <p>
               <input
-                type="checkbox"
+                type="radio"
+                className="with-gap"
                 checked={this.state.answer == null ? false : !this.state.answer}
                 onChange={() => this.checkBox(false)}
                 id={this.id2}
@@ -52,7 +54,7 @@ export class BinaryQuestion extends React.Component {
           </div>
         </form>
         {this.state.answer == false ? (
-          <div className="input-field animated fadeInDown">
+          <div className="input-field">
             <textarea
               style={{
                 height: "2.5rem",

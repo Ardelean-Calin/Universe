@@ -13,11 +13,10 @@ export class SubjectList extends React.Component {
 
   // Get the number of non-reviewed items per subject
   getNoNotifications(subjectID) {
-    let c = Object.keys(this.props.subjects[subjectID].cursuri);
-    let s = Object.keys(this.props.subjects[subjectID].seminarii);
-    let l = Object.keys(this.props.subjects[subjectID].laboratoare);
+    let c = Object.keys(this.props.subjects[subjectID].cursuri || []);
+    let l = Object.keys(this.props.subjects[subjectID].laboratoare || []);
 
-    let total = [...c, ...s, ...l];
+    let total = [...c, ...l];
 
     let noNotifications = 0;
     total.map(val => {
@@ -29,7 +28,7 @@ export class SubjectList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ position: "absolute", top: "4rem" }}>
         <div>
           {Object.entries(this.props.subjects).map(([key, value], index) => (
             <HorizontalCard
